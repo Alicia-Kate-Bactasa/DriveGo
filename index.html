@@ -4,8 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DriveGo</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1> Welcome to DriveGo! Where all donations are centralized!</h1>
+    <header class="mainHeader">
+        <div class="wrapper">
+            <div class="navBar">
+                <div class="siteLogo">DriveGo</div>
+                <nav class="navigation" id="mainNav">
+                    <a href="#home">Home</a>
+                    <a href="#aboutSec">About</a>
+                    <a href="#categorySection">Categories</a>
+                    <a href="#footerArea">Contact</a>
+                </nav>
+                <button class="btnSubmit">Submit a Drive</button>
+                <button class="menuBtn" id="menuToggle">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="heroSection" id="home">
+        <div class="heroOverlay"></div>
+        <div class="wrapper heroBox">
+            <h1>Discover and explore <br>donation drives <br>near you.</h1>
+            <p>Browse the donation drives and support what you want to see in your local community.</p>
+            <button class="btnBrowse" onclick="document.getElementById('categorySection').scrollIntoView({behavior: 'smooth'})">Browse Drives</button>
+        </div>
+    </section>
+
+    <section class="aboutSection" id="aboutSec">
+        <div class="wrapper">
+            <h2 class="sectionHeading">Connect. Discover. Make a Difference.</h2>
+            <div class="infoCards">
+                <div class="infoBox">
+                    <h3>What We Do</h3>
+                    <p>We connect people to donation drives happening in their community, providing a simple and organized way to see ongoing initiatives. By bringing these drives together in one place, we make it easier for anyone to find opportunities to help and support causes they care about.</p>
+                </div>
+                <div class="infoBox">
+                    <h3>Our Goal</h3>
+                    <p>Our goal is to make giving simple, accessible, and meaningful for everyone. We want to ensure that anyone who wants to help can easily discover donation drives, understand what is needed, and contribute in ways that make a real difference.</p>
+                </div>
+                <div class="infoBox">
+                    <h3>Why It Matters</h3>
+                    <p>Every donation counts, no matter the size. By showcasing drives in one organized platform, we help ensure that more people and communities receive the support they need, while encouraging a culture of giving and compassion. Browse any categories where you feel you help is needed the most.</p>
+                </div>
+            </div>
+            <button class="scrollBtn" onclick="document.getElementById('categorySection').scrollIntoView({behavior: 'smooth'})">↓</button>
+        </div>
+    </section>
+
+    <section class="categoryArea" id="categorySection">
+        <div class="wrapper">
+            <h2 class="sectionHeading">Explore Categories</h2>
+            <p class="subheading">Browse different types of donation drives to find the causes you care about.</p>
+        </div>
+    </section>
+
+    <footer class="mainFooter" id="footerArea">
+        <div class="wrapper">
+            <div class="footerContent">
+                <div class="footerBox">
+                    <h3>DriveGo</h3>
+                    <p>Connecting you with the tools you need to make impact in whatever cause you choose.</p>
+                </div>
+                <div class="footerBox">
+                    <h4>ABOUT US</h4>
+                    <a href="#about">About</a>
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms and Use</a>
+                </div>
+                <div class="footerBox">
+                    <h4>FOLLOW US</h4>
+                    <a href="#">Twitter</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Blog</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>

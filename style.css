@@ -1,0 +1,300 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Georgia, Times, serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.mainHeader {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1rem 0;
+}
+
+.mainHeader .wrapper {
+    max-width: 1100px;
+}
+
+.navBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.siteLogo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.navigation {
+    display: flex;
+    gap: 2rem;
+    flex: 1;
+    justify-content: center;
+}
+
+.navigation a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.navigation a:hover {
+    color: #0099ff;
+}
+
+.menuBtn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.btnSubmit {
+    background: #0099ff;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.8rem 0.5rem 1.8rem;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+.btnSubmit::after {
+    content: '+';
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: white;
+    color: #0099ff;
+    border-radius: 50%;
+}
+
+.btnSubmit:hover {
+    background: #0077cc;
+}
+
+.btnBrowse {
+    background: #0099ff;
+    color: white;
+    border: none;
+    padding: 0.55rem 0.8rem 0.55rem 1.8rem;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btnBrowse::after {
+    content: '↓';
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: white;
+    color: #0099ff;
+    border-radius: 50%;
+}
+
+.btnBrowse:hover {
+    background: #0077cc;
+}
+
+.heroSection {
+    position: relative;
+    height: 650px;
+    background: url('images/hero-bg.png') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heroSection::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.heroOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.heroBox {
+    position: relative;
+    z-index: 2;
+    color: white;
+    max-width: 85%;
+    width: 1100px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    padding: 3rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.heroBox h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.heroBox p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.aboutSection {
+    background: #0099ff;
+    padding: 5rem 0;
+    color: white;
+    position: relative;
+    min-height: 500px;
+}
+
+.sectionHeading {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    font-weight: 700;
+}
+
+.infoCards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    background: white;
+    border-radius: 20px;
+    padding: 3rem;
+    margin-bottom: 3rem;
+}
+
+.infoBox {
+    color: #000;
+    padding: 2rem;
+    border-right: 1px solid #ddd;
+}
+
+.infoBox:nth-child(1) {
+    text-align: left;
+}
+
+.infoBox:nth-child(2) {
+    text-align: center;
+}
+
+.infoBox:nth-child(3) {
+    text-align: right;
+    border-right: none;
+}
+
+.infoBox h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.infoBox p {
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+.scrollBtn {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    border: 2px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: transparent;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.scrollBtn:hover {
+    background: white;
+    color: #0099ff;
+}
+
+.categoryArea {
+    padding: 4rem 0;
+    background: white;
+}
+
+.subheading {
+    text-align: center;
+    color: #666;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+}
+
+.mainFooter {
+    background: #0099ff;
+    color: white;
+    padding: 3rem 0 2rem;
+}
+
+.footerContent {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.footerBox h3, .footerBox h4 {
+    margin-bottom: 1rem;
+}
+
+.footerBox a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+}
+
+.footerBox a:hover {
+    opacity: 0.8;
+}
