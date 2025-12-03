@@ -71,11 +71,10 @@ window.addEventListener('click', function(e) {
 });
 
 if (driveForm) {
-    driveForm.addEventListener('submit', function(e) {
+    driveForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const drive = {
-            id: Date.now(),
             name: document.getElementById('driveName').value,
             description: document.getElementById('driveDesc').value,
             media: document.getElementById('driveMedia').value,
@@ -83,12 +82,25 @@ if (driveForm) {
             category: document.getElementById('driveCategory').value
         };
         
-        let drives = JSON.parse(localStorage.getItem('drives') || '[]');
-        drives.push(drive);
-        localStorage.setItem('drives', JSON.stringify(drives));
-        
-        alert('Drive submitted successfully!');
-        modal.style.display = 'none';
-        driveForm.reset();
+        try {
+            const response = await fetch('http://localhost:3000/api/drives', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(drive)
+            });
+            
+            if (response.ok) {
+                alert('Drive submitted successfully!');
+                modal.style.display = 'none';
+                driveForm.reset();
+            } else {
+                alert('Failed to submit drive. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error submitting drive:', error);
+            alert('Error submitting drive. Make sure the server is running.');
+        }
     });
 }

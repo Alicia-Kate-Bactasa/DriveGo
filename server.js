@@ -10,8 +10,9 @@ const DATA_FILE = path.join(__dirname, 'drives.json');
 app.use(cors());
 app.use(express.json());
 app.use(express.static('src'));
+app.use('/media', express.static('media'));
 
-// Initialize data file if it doesn't exist
+
 async function initDataFile() {
     try {
         await fs.access(DATA_FILE);
