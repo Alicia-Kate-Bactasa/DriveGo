@@ -17,13 +17,50 @@
                     <a href="#categorySection">Categories</a>
                     <a href="#footerArea">Contact</a>
                 </nav>
-                <button class="btnSubmit">Submit a Drive</button>
+                <button class="btnSubmit" id="openModal">Submit a Drive</button>
                 <button class="menuBtn" id="menuToggle">☰</button>
             </div>
         </div>
     </header>
 
+    <div id="submitModal" class="modal">
+        <div class="modalContent">
+            <span class="closeModal">&times;</span>
+            <h2>Submit a Drive</h2>
+            <form id="driveForm">
+                <label>Name:</label>
+                <input type="text" id="driveName" required>
+                
+                <label>Description:</label>
+                <textarea id="driveDesc" required></textarea>
+                
+                <label>Media Link:</label>
+                <input type="url" id="driveMedia">
+                
+                <label>Photo URL:</label>
+                <input type="url" id="drivePhoto">
+                
+                <label>Category:</label>
+                <select id="driveCategory" required>
+                    <option value="healthcare">Healthcare & Medicine</option>
+                    <option value="disasters">Disasters & Calamities</option>
+                    <option value="food">Food & Beverages</option>
+                    <option value="clothing">Clothing & Apparel</option>
+                    <option value="education">School & Education Supplies</option>
+                    <option value="toys">Toys & Recreational Items</option>
+                    <option value="furniture">Household & Furniture</option>
+                    <option value="hygiene">Hygiene & Personal Care</option>
+                    <option value="monetary">Monetary Donations</option>
+                    <option value="miscellaneous">Miscellaneous or Special Requests</option>
+                </select>
+                
+                <button type="submit" class="btnSubmitForm">Submit</button>
+            </form>
+        </div>
+    </div>
+
     <section class="heroSection" id="home">
+        <div class="hero-background-image"></div>
         <div class="heroOverlay"></div>
         <div class="wrapper heroBox">
             <h1>Discover and explore <br>donation drives <br>near you.</h1>
@@ -57,6 +94,38 @@
         <div class="wrapper">
             <h2 class="sectionHeading">Explore Categories</h2>
             <p class="subheading">Browse different types of donation drives to find the causes you care about.</p>
+            <div class="categoryGrid">
+                <a href="healthcare.html" class="categoryCard">
+                    <button class="btnView">View Drives</button>
+                </a>
+                <a href="disasters.html" class="categoryCard">
+                    <button class="btnView">View Drives</button>
+                </a>
+                <a href="food.html" class="categoryCard">
+                    <button class="btnView">View Drives</button>
+                </a>
+                <a href="clothing.html" class="categoryCard">
+                    <button class="btnView">View Drives</button>
+                </a>
+                <a href="education.html" class="categoryCard">
+                    <button class="btnView">View Drives</button>
+                </a>
+                <a href="toys.html" class="categoryCard">
+                    <button class="btnView">View Drives</button>
+                </a>
+                <a href="furniture.html" class="categoryCard">
+                    <button class="btnView">View Drives</button>
+                </a>
+                <a href="hygiene.html" class="categoryCard">
+                    <button class="btnView">View Drives</button>
+                </a>
+                <a href="monetary.html" class="categoryCard lastRow">
+                    <button class="btnView">View Drives</button>
+                </a>
+                <a href="miscellaneous.html" class="categoryCard lastRow">
+                    <button class="btnView">View Drives</button>
+                </a>
+            </div>
         </div>
     </section>
 
