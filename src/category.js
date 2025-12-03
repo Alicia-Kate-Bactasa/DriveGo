@@ -4,7 +4,7 @@ function loadDrives(category) {
     const container = document.getElementById('drivesContainer');
 
     if (categoryDrives.length === 0) {
-        container.innerHTML = '<p>No drives yet in this category.</p>';
+        container.innerHTML = '<p style="color: white;">No drives yet in this category.</p>';
         return;
     }
 
