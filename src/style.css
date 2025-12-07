@@ -297,7 +297,7 @@ body {
 
 .categoryCard {
     background: #f5f5f5;
-    padding: 1.5rem;
+    padding: 2rem 1.5rem 1.5rem;
     border-radius: 15px;
     min-height: 180px;
     display: flex;
@@ -323,8 +323,41 @@ body {
 }
 
 .categoryIcon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* circular background like the mockup */
+    width: 56px;
+    height: 56px;
+    background: #e0e0e0;
+    border-radius: 50%;
+}
+
+/* Explicitly size SVG and icon-font icons inside the category icon container
+   so they are smaller and consistent across cards. Using currentColor lets
+   the icons inherit the heading color. */
+.categoryIcon svg,
+.categoryIcon .bi {
+    /* keep the icon comfortably inside the circle */
+    width: 1.2rem;
+    height: 1.2rem;
+    display: block;
+    margin: 0 auto;
+    color: inherit;
+}
+
+/* subtle improvement: make the icon container visually separate from card */
+.categoryCard {
+    /* ensure the circle sits a bit above heading */
+    padding-top: 2rem;
+}
+
+/* Force icons to use a black color */
+.categoryIcon {
+    color: #000;
 }
 
 .categoryCard h3 {
