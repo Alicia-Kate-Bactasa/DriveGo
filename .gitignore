@@ -1,29 +1,107 @@
 # Dependencies
 node_modules/
+bower_components/
+jspm_packages/
+vendor/
 
 # Environment variables and API keys
 .env
+.env.*
 .env.local
-.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 *.key
 *.pem
+*.p12
+*.pfx
+*.cer
+*.crt
 
 # Sensitive configuration files
 config/secrets.json
 config/api-keys.json
+config/credentials.json
+config/.env*
+secrets/
+.secrets/
+credentials/
+.credentials/
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+*.db3
+drives.json.backup
+
+# Authentication & Tokens
+auth.json
+token.json
+.google-credentials.json
+oauth-token.json
+firebase-adminsdk*.json
+serviceAccountKey.json
+*.jks
+*.keystore
+
+# Cloud provider credentials
+.aws/
+.azure/
+.gcloud/
+gcloud-key.json
+aws-credentials.json
 
 # OS files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+desktop.ini
 
 # Editor files
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
 
 # Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Build outputs
+dist/
+build/
+.cache/
+.temp/
+.tmp/
+
+# Coverage directory
+coverage/
+*.lcov
+.nyc_output/
+
+# Backup files
+*.backup
+*.bak
+*.old
+*.orig
