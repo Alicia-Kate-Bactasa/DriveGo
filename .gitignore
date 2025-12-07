@@ -33,6 +33,7 @@ credentials/
 *.sqlite3
 *.db
 *.db3
+drives.json
 drives.json.backup
 
 # Authentication & Tokens
