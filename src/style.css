@@ -473,13 +473,14 @@ body {
     border-radius: 8px;
     font-family: Georgia, Times, serif;
     font-size: 0.9rem;
+    background: white;
 }
 
 .modalContent input:focus,
 .modalContent textarea:focus,
 .modalContent select:focus {
     outline: none;
-    border-color: #999;
+    border-color: #0099ff;
 }
 
 .modalContent textarea {
