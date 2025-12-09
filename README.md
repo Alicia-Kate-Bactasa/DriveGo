@@ -1,9 +1,6 @@
 # DriveGo – Centralized Donation Drive for Cebu
-
-**DriveGo** is a centralized platform that brings together donation drives across Cebu in one organized and accessible location. By compiling multiple drives under a single platform, DriveGo allows volunteers, donors, and organizations to easily discover and support causes that matter most in their community. Whether it’s healthcare, education, disaster relief, food drives, or personal care, DriveGo provides a clear and structured way to connect with ongoing initiatives.  
 ---
 ## Features
-
 - **Centralized Donation Drives**: All donation opportunities across Cebu are showcased in one place, making it easier for users to find and contribute.  
 - **Multiple Categories**: Donation drives are grouped into a variety of categories, including:
   - Healthcare & Medicine  
