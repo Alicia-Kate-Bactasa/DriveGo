@@ -12,7 +12,7 @@ async function loadDrives(category) {
         const categoryDrives = await response.json(); // Convert response to JavaScript object
         const container = document.getElementById('drivesContainer'); // Get the container where I'll put the cards
 
-        // If there are no drives yet, I show a friendly message
+        // If there are no drives yet, I show a message
         if (categoryDrives.length === 0) {
             container.innerHTML = '<p style="color: white;">No drives yet in this category.</p>';
             return;

@@ -1,0 +1,227 @@
+// Prisma schema for DriveGo - centralized donation drive platform
+// Run `npx prisma generate` after editing this file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum Role {
+  ORGANIZER
+  ADMIN
+  VOLUNTEER
+}
+
+enum Status {
+  DRAFT
+  ACTIVE
+  FUNDED
+  EXPIRED
+  REJECTED
+  ARCHIVED
+}
+
+enum Category {
+  HEALTHCARE
+  DISASTERS
+  FOOD
+  CLOTHING
+  EDUCATION
+  TOYS
+  FURNITURE
+  HYGIENE
+  MONETARY
+  MISCELLANEOUS
+}
+
+// ============================================
+// MODELS
+// ============================================
+
+model Profile {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  email         String    @unique
+  displayName   String?
+  avatarUrl     String?
+  bio           String?
+  location      String?
+  role          Role      @default(VOLUNTEER)
+  orgId         String?   @unique
+
+  organization  Organization? @relation("OrgOwner", fields: [orgId], references: [id])
+  createdDrives Drive[]     @relation("DriveCreator")
+  savedDrives   SavedDrive[]
+  follows       Follow[]    @relation("Follower")
+  followedBy    Follow[]    @relation("Following")
+  updates       Update[]    @relation("UpdateAuthor")
+
+  @@map("profiles")
+  @@index([email])
+}
+
+model Organization {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  name        String
+  slug        String   @unique
+  description String?
+  website     String?
+  logoUrl     String?
+  verified    Boolean  @default(false)
+  location    String?
+
+  owner       Profile  @relation("OrgOwner", fields: [ownerId], references: [id])
+  ownerId     String   @unique
+
+  drives      Drive[]  @relation("OrgDrives")
+  followers   Follow[] @relation("OrgFollowed")
+
+  @@map("organizations")
+  @@index([slug])
+}
+
+model CategoryEntity {
+  id       String  @id @default(cuid())
+  name     Category @unique
+  label    String  @unique
+  icon     String?
+  order    Int     @default(0)
+
+  drives   Drive[]
+
+  @@map("categories")
+}
+
+model Drive {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  startsAt    DateTime?
+  endsAt      DateTime?
+
+  title       String
+  description String   @db.Text
+  summary     String?
+  mediaUrl    String?
+  imageUrl    String?
+
+  category    Category @default(MONETARY)
+  status      Status   @default(DRAFT)
+  location    String?
+  locationLat Float?
+  locationLng Float?
+
+  creatorId   String
+  creator     Profile  @relation("DriveCreator", fields: [creatorId], references: [id])
+
+  orgId       String?
+  organization Organization? @relation("OrgDrives", fields: [orgId], references: [id])
+
+  items       DriveItem[]
+  updates     Update[]   @relation("DriveUpdates")
+  savedBy     SavedDrive[]
+  follows     Follow[]   @relation("DriveFollowed")
+
+  progress    Float    @default(0)
+  donorsCount Int      @default(0)
+
+  @@map("drives")
+  @@index([category])
+  @@index([status])
+  @@index([locationLat, locationLng])
+  @@index([endsAt])
+  @@index([orgId])
+}
+
+model DriveItem {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+
+  driveId     String
+  drive       Drive    @relation(fields: [driveId], references: [id], onDelete: Cascade)
+
+  name        String
+  description String?  @db.Text
+  quantity    Int      @default(1)
+  unit        String?  // e.g., "kg", "liters", "pieces"
+  urgency     String?  // e.g., "critical", "high", "medium", "low"
+
+  @@map("drive_items")
+  @@index([driveId])
+}
+
+model Update {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  driveId     String
+  drive       Drive    @relation("DriveUpdates", fields: [driveId], references: [id], onDelete: Cascade)
+  authorId    String
+  author      Profile  @relation("UpdateAuthor", fields: [authorId], references: [id])
+
+  title       String
+  body        String   @db.Text
+
+  @@map("updates")
+  @@index([driveId])
+  @@index([authorId])
+}
+
+model SavedDrive {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+
+  userId      String
+  user        Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  driveId     String
+  drive       Drive    @relation(fields: [driveId], references: [id], onDelete: Cascade)
+
+  @@map("saved_drives")
+  @@unique([userId, driveId])
+  @@index([userId])
+  @@index([driveId])
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+
+  followerId  String
+  follower    Profile  @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+
+  orgId       String?
+  organization Organization? @relation("OrgFollowed", fields: [orgId], references: [id], onDelete: Cascade)
+
+  driveId     String?
+  drive       Drive?   @relation("DriveFollowed", fields: [driveId], references: [id], onDelete: Cascade)
+
+  @@map("follows")
+  @@unique([followerId, orgId])
+  @@unique([followerId, driveId])
+  @@index([followerId])
+  @@index([orgId])
+}
+
+// ============================================
+// SEED DATA
+// ============================================
+
+generator seed {
+  provider = "tsx"
+  entry    = "prisma/seed.ts"
+}

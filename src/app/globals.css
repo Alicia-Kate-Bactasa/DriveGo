@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-accent: #0099ff;
+    --color-accent-hover: #0077cc;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-gray-900 antialiased;
+    font-family: Georgia, Times, serif;
+  }
+
+  h1, h2, h3 {
+    font-family: Georgia, Times, serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-accent px-5 py-2.5 font-semibold text-white shadow-sm transition hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center rounded-full bg-red-600 px-5 py-2.5 font-semibold text-white shadow-sm transition hover:bg-red-700;
+  }
+
+  .card {
+    @apply rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition hover:shadow-md;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700;
+  }
+
+  .badge-outline {
+    @apply inline-flex items-center rounded-full border border-gray-200 px-3 py-1 text-xs font-semibold text-gray-600;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom scrollbar for modals */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}

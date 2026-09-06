@@ -1,40 +1,44 @@
-# DriveGo – Centralized Donation Drive for Cebu
----
+# DriveGo — Centralized Donation Drive Platform
+
+## Overview
+
+DriveGo is a centralized platform where organizations publish donation drives and users discover, support, and track campaigns. Browse drives by category, follow organizations, save drives for later, and monitor progress with transparency.
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 15 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Backend | Supabase (PostgreSQL, Auth, Storage) |
+| Database | Prisma ORM |
+| Validation | Zod |
+| Deployment | Vercel |
+
 ## Features
-- **Centralized Donation Drives**: All donation opportunities across Cebu are showcased in one place, making it easier for users to find and contribute.  
-- **Multiple Categories**: Donation drives are grouped into a variety of categories, including:
-  - Healthcare & Medicine  
-  - Disasters & Calamities  
-  - Food & Beverages  
-  - Clothing & Apparel  
-  - School & Education Supplies  
-  - Toys & Recreational Items  
-  - Household & Furniture  
-  - Hygiene & Personal Care  
-  - Monetary Donations  
-  - Miscellaneous or Special Requests  
-- **Category Cards & Icons**: Each category is represented by visually intuitive icons sourced from [Bootstrap Icons](https://icons.getbootstrap.com/), providing a clean and consistent user interface.  
-- **Submit a Drive**: Users can submit their own drives using the built-in form, making community contributions easy and streamlined.  
-- **Node.js Backend**: DriveGo uses Node.js to handle form submissions and server-side logic without requiring a full database setup.  
 
----
+- **Category browsing** — 10 donation categories with filtering and search
+- **Location-based discovery** — Nearby drives via geolocation
+- **Progress bars** — Visual campaign progress tracking
+- **Organization profiles** — Verified org pages with active drive listings
+- **Saved drives** — Bookmark drives for later
+- **Follow system** — Follow organizations and campaigns
+- **Campaign updates** — Organizer updates on progress
+- **Admin moderation** — Draft review and drive status management
+- **Authentication** — Supabase Auth with server-side session management
+- **Security** — RLS policies, Zod validation, security headers, rate limiting
 
-## Screenshots
+## Getting Started
 
-![Image 1](media/first.png)  
+```bash
+npm install
+npx prisma generate
+npx prisma migrate dev
+npx prisma db seed
+npm run dev
+```
 
+## Deployment
 
-![Image 2](media/second.png)  
-
-
----
-
-## How It Works
-
-1. **Browse Drives**: Users can explore donation drives by category or search for specific initiatives.  
-2. **Submit Drives**: Community members can easily submit their drives via the modal form.  
-3. **Contribute**: Once a drive is selected, users can directly contribute items, services, or monetary donations.  
-
----
-
-DriveGo simplifies giving by making it accessible, transparent, and centralized for the entire Cebu community.
+Push to GitHub and deploy on Vercel. Set environment variables from `.env.example` in the Vercel dashboard.

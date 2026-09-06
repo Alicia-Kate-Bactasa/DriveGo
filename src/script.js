@@ -26,7 +26,8 @@ navLinks.forEach(function(link) {
     });
 });
 
-// I close the mobile menu when someone clicks outside of it
+/
+
 document.addEventListener('click', function(e) {
     if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
         mainNav.classList.remove('active');

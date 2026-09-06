@@ -50,9 +50,5 @@ next-env.d.ts
 Thumbs.db
 
 # Old files (Express)
-server.js
-drives.json
-src/
-media/first.png
-media/second.png
-media/hero.jpg
+server.js.bak
+drives.json.bak
