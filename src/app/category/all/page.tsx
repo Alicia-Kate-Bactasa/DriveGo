@@ -16,10 +16,12 @@ export default async function AllDrivesPage() {
 
   return (
     <PageShell>
-      <section className="bg-brand-50 py-12">
+      <section className="border-b border-gray-100 bg-gradient-to-br from-blue-50 to-white py-12">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <h1 className="text-4xl font-bold text-gray-900">All Donation Drives</h1>
-          <p className="mt-2 text-gray-600">Browse every active donation drive on DriveGo.</p>
+          <p className="mt-2 text-gray-600">
+            Browse every active donation drive on DriveGo.
+          </p>
         </div>
       </section>
       <DriveListing initialDrives={drives as any} />

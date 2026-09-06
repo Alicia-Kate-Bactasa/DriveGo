@@ -1,14 +1,58 @@
-# Environment variables — CONTAINS SECRETS
-.env*.local
-.env*.local.txt
-*.pem
-
 # Dependencies
 node_modules
+.pnp
+.pnp.js
 
-# Build output (generated on npm run dev/build)
+# Testing
+coverage
+
+# Next.js
 .next
-tsconfig.tsbuildinfo
+out
+build
+dist
 
-# macOS
+# Production
+build
+*.tgz
+
+# Misc
 .DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local env files
+.env*.local
+!.env.example
+.env
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Prisma
+.prisma
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+
+# Old files (Express)
+server.js
+drives.json
+src/
+media/first.png
+media/second.png
+media/hero.jpg

@@ -1,3 +1,4 @@
+import { Bookmark, BookmarkX } from "lucide-react";
 import { PageShell } from "@/components/layout/header-wrapper";
 import { DriveCard } from "@/components/drive/drive-card";
 import { prisma } from "@/lib/prisma";
@@ -21,16 +22,21 @@ export default async function SavedDrivesPage() {
 
   return (
     <PageShell>
-      <section className="bg-brand-50 py-12">
+      <section className="border-b border-gray-100 bg-gradient-to-br from-blue-50 to-white py-12">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h1 className="text-4xl font-bold text-gray-900">Saved Drives</h1>
-          <p className="mt-2 text-gray-600">The donation drives you&apos;ve bookmarked.</p>
+          <h1 className="flex items-center gap-3 text-4xl font-bold text-gray-900">
+            <Bookmark size={32} className="text-primary" /> Saved Drives
+          </h1>
+          <p className="mt-2 text-gray-600">
+            The donation drives you&apos;ve bookmarked.
+          </p>
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
         {saved.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-gray-200 bg-white p-12 text-center">
+            <BookmarkX size={48} className="mx-auto mb-4 text-gray-300" />
             <p className="text-gray-500">You haven&apos;t saved any drives yet.</p>
           </div>
         ) : (

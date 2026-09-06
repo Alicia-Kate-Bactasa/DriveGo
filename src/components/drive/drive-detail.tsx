@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Category, Status } from "@prisma/client";
+import { MapPin, BadgeCheck, ExternalLink } from "lucide-react";
 import { getCategoryLabel } from "@/lib/categories";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -69,11 +71,20 @@ export function DriveDetail({
   return (
     <div className="mx-auto max-w-4xl">
       <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
-        <div className="relative h-72 bg-gradient-to-br from-brand-50 to-brand-100">
+        <div className="relative h-72 overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 lg:h-96">
           {imageUrl ? (
-            <img src={imageUrl} alt={title} className="h-full w-full object-cover" />
+            <Image
+              src={imageUrl}
+              alt={title}
+              fill
+              priority
+              sizes="(min-width: 1024px) 64rem, 100vw"
+              className="object-cover"
+            />
           ) : (
-            <div className="flex h-full items-center justify-center text-6xl text-brand-200">🎁</div>
+            <div className="flex h-full items-center justify-center text-6xl text-blue-200">
+              🎁
+            </div>
           )}
           <div className="absolute left-4 top-4">
             <Badge>{getCategoryLabel(category)}</Badge>
@@ -85,13 +96,20 @@ export function DriveDetail({
           )}
         </div>
 
-        <div className="p-6">
-          <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-          <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-600">
-            <span>📍 {location || "Online"}</span>
+        <div className="p-6 lg:p-8">
+          <h1 className="text-3xl font-bold text-gray-900 lg:text-4xl">{title}</h1>
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-600">
+            <span className="flex items-center gap-1">
+              <MapPin size={14} /> {location || "Online"}
+            </span>
             {organization && (
-              <Link href={`/orgs/${organization.slug}`} className="flex items-center gap-1 hover:text-accent">
-                {organization.verified && <span>✓</span>}
+              <Link
+                href={`/orgs/${organization.slug}`}
+                className="flex items-center gap-1 transition hover:text-primary"
+              >
+                {organization.verified && (
+                  <BadgeCheck size={14} className="text-primary" />
+                )}
                 {organization.name}
               </Link>
             )}
@@ -101,18 +119,24 @@ export function DriveDetail({
           <div className="mt-6">
             <div className="flex items-center justify-between text-sm">
               <span className="font-medium text-gray-600">Campaign Progress</span>
-              <span className="font-bold text-accent">{Math.round(progress)}%</span>
+              <span className="font-bold text-primary">
+                {Math.round(progress)}%
+              </span>
             </div>
             <Progress value={progress} className="mt-2" />
             <div className="mt-2 flex items-center justify-between text-xs text-gray-500">
-              <span>{donorsCount} donors</span>
-              {endsAtDate && !isExpired && <Tag>Ends {endsAtDate.toLocaleString()}</Tag>}
+              <span>
+                {donorsCount} {donorsCount === 1 ? "donor" : "donors"}
+              </span>
+              {endsAtDate && !isExpired && (
+                <Tag>Ends {endsAtDate.toLocaleString()}</Tag>
+              )}
             </div>
           </div>
 
           <div className="mt-6">
             <h2 className="text-lg font-bold text-gray-900">About This Drive</h2>
-            <p className="mt-2 text-gray-700 leading-relaxed">{description}</p>
+            <p className="mt-2 leading-relaxed text-gray-700">{description}</p>
             {summary && <p className="mt-2 text-gray-600">{summary}</p>}
           </div>
 
@@ -122,14 +146,14 @@ export function DriveDetail({
                 href={mediaUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-accent hover:underline"
+                className="inline-flex items-center gap-1 text-sm font-medium text-primary transition hover:underline"
               >
-                📎 View original source
+                <ExternalLink size={14} /> View original source
               </a>
             </div>
           )}
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-2">
             <Tag>Category: {getCategoryLabel(category)}</Tag>
             <Tag>Status: {status}</Tag>
           </div>
@@ -143,28 +167,34 @@ export function DriveDetail({
             {items && items.length > 0 ? (
               items.map((item) => <DriveItem key={item.id} {...item} />)
             ) : (
-              <p className="text-sm text-gray-500">No specific items listed. Contact the organizer for details.</p>
+              <p className="text-sm text-gray-500">
+                No specific items listed. Contact the organizer for details.
+              </p>
             )}
           </div>
         </div>
 
         <div className="space-y-4">
-          <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
             <h3 className="font-bold text-gray-900">Campaign Details</h3>
             <dl className="mt-3 space-y-2 text-sm">
               <div className="flex justify-between">
                 <dt className="text-gray-500">Category</dt>
-                <dd className="font-medium text-gray-900">{getCategoryLabel(category)}</dd>
+                <dd className="font-medium text-gray-900">
+                  {getCategoryLabel(category)}
+                </dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-gray-500">Starts</dt>
                 <dd className="font-medium text-gray-900">
-                  {createdAt ? new Date(createdAt).toLocaleDateString() : "—"}</dd>
+                  {createdAt ? new Date(createdAt).toLocaleDateString() : "—"}
+                </dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-gray-500">Ends</dt>
                 <dd className="font-medium text-gray-900">
-                  {endsAtDate ? endsAtDate.toLocaleDateString() : "Ongoing"}</dd>
+                  {endsAtDate ? endsAtDate.toLocaleDateString() : "Ongoing"}
+                </dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-gray-500">Donors</dt>
@@ -173,16 +203,22 @@ export function DriveDetail({
             </dl>
           </div>
 
-          <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
             <h3 className="font-bold text-gray-900">Organizer</h3>
             {organization ? (
-              <Link href={`/orgs/${organization.slug}`} className="mt-2 flex items-center gap-2 hover:text-accent">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-50 text-accent">
+              <Link
+                href={`/orgs/${organization.slug}`}
+                className="mt-3 flex items-center gap-3 transition hover:text-primary"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 font-semibold text-primary">
                   {organization.name?.[0] || "O"}
                 </span>
                 <div>
-                  <p className="font-medium text-gray-900">
-                    {organization.name} {organization.verified && "✓"}
+                  <p className="flex items-center gap-1 font-medium text-gray-900">
+                    {organization.name}
+                    {organization.verified && (
+                      <BadgeCheck size={14} className="text-primary" />
+                    )}
                   </p>
                   <p className="text-xs text-gray-500">Verified organization</p>
                 </div>

@@ -1,5 +1,8 @@
+import { memo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Category, Status } from "@prisma/client";
+import { MapPin, BadgeCheck } from "lucide-react";
 import { getCategoryLabel } from "@/lib/categories";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -20,7 +23,7 @@ type DriveCardProps = {
   organization?: { name?: string | null; verified?: boolean } | null;
 };
 
-export function DriveCard({
+export const DriveCard = memo(function DriveCard({
   id,
   title,
   summary,
@@ -39,28 +42,48 @@ export function DriveCard({
 
   return (
     <Link href={`/drives/${id}`} className="group block">
-      <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition hover:shadow-lg">
-        <div className="relative h-44 bg-gradient-to-br from-brand-50 to-brand-100">
+      <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+        <div className="relative h-44 overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100">
           {imageUrl ? (
-            <img src={imageUrl} alt={title} className="h-full w-full object-cover" />
+            <Image
+              src={imageUrl}
+              alt={title}
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
           ) : (
-            <div className="flex h-full items-center justify-center text-4xl text-brand-200">🎁</div>
+            <div className="flex h-full items-center justify-center text-5xl text-blue-200">
+              🎁
+            </div>
           )}
           <div className="absolute left-3 top-3">
             <Badge>{getCategoryLabel(category)}</Badge>
           </div>
-          {isExpired && <div className="absolute right-3 top-3"><Tag>Expired</Tag></div>}
+          {isExpired && (
+            <div className="absolute right-3 top-3">
+              <Tag>Expired</Tag>
+            </div>
+          )}
         </div>
 
         <div className="p-4">
-          <h3 className="line-clamp-1 text-base font-bold text-gray-900 group-hover:text-accent">{title}</h3>
-          {summary && <p className="mt-1 line-clamp-2 text-sm text-gray-600">{summary}</p>}
+          <h3 className="line-clamp-1 text-base font-bold text-gray-900 transition-colors group-hover:text-primary">
+            {title}
+          </h3>
+          {summary && (
+            <p className="mt-1 line-clamp-2 text-sm text-gray-600">{summary}</p>
+          )}
 
           <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
-            <span className="flex items-center gap-1">📍 {location || "Online"}</span>
+            <span className="flex items-center gap-1">
+              <MapPin size={12} /> {location || "Online"}
+            </span>
             {organization && (
               <span className="flex items-center gap-1">
-                {organization.verified && <span>✓</span>}
+                {organization.verified && (
+                  <BadgeCheck size={12} className="text-primary" />
+                )}
                 {organization.name}
               </span>
             )}
@@ -69,13 +92,17 @@ export function DriveCard({
           <div className="mt-3">
             <div className="flex items-center justify-between text-xs">
               <span className="font-medium text-gray-600">Progress</span>
-              <span className="font-medium text-accent">{Math.round(progress)}%</span>
+              <span className="font-semibold text-primary">
+                {Math.round(progress)}%
+              </span>
             </div>
-            <Progress value={progress} className="mt-1" />
+            <Progress value={progress} className="mt-1.5" />
           </div>
 
           <div className="mt-3 flex items-center justify-between">
-            <span className="text-xs text-gray-500">{donorsCount} donors</span>
+            <span className="text-xs text-gray-500">
+              {donorsCount} {donorsCount === 1 ? "donor" : "donors"}
+            </span>
             {endsAtDate && !isExpired && (
               <Tag>Ends {endsAtDate.toLocaleDateString()}</Tag>
             )}
@@ -84,4 +111,4 @@ export function DriveCard({
       </div>
     </Link>
   );
-}
+});
