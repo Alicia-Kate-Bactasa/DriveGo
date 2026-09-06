@@ -1,108 +1,58 @@
 # Dependencies
-node_modules/
-bower_components/
-jspm_packages/
-vendor/
+node_modules
+.pnp
+.pnp.js
 
-# Environment variables and API keys
-.env
-.env.*
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-*.key
-*.pem
-*.p12
-*.pfx
-*.cer
-*.crt
+# Testing
+coverage
 
-# Sensitive configuration files
-config/secrets.json
-config/api-keys.json
-config/credentials.json
-config/.env*
-secrets/
-.secrets/
-credentials/
-.credentials/
+# Next.js
+.next
+out
+build
+dist
 
-# Database files
-*.sqlite
-*.sqlite3
-*.db
-*.db3
-drives.json
-drives.json.backup
+# Production
+build
+*.tgz
 
-# Authentication & Tokens
-auth.json
-token.json
-.google-credentials.json
-oauth-token.json
-firebase-adminsdk*.json
-serviceAccountKey.json
-*.jks
-*.keystore
-
-# Cloud provider credentials
-.aws/
-.azure/
-.gcloud/
-gcloud-key.json
-aws-credentials.json
-
-# OS files
+# Misc
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-desktop.ini
+*.pem
 
-# Editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.project
-.classpath
-.settings/
-*.sublime-project
-*.sublime-workspace
-
-# Logs
-*.log
+# Debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-lerna-debug.log*
 pnpm-debug.log*
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+# Local env files
+.env*.local
+!.env.example
 
-# Build outputs
-dist/
-build/
-.cache/
-.temp/
-.tmp/
+# Vercel
+.vercel
 
-# Coverage directory
-coverage/
-*.lcov
-.nyc_output/
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
 
-# Backup files
-*.backup
-*.bak
-*.old
-*.orig
+# Prisma
+.prisma
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+
+# Old files (Express)
+server.js
+drives.json
+src/
+media/first.png
+media/second.png
+media/hero.jpg
