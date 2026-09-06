@@ -1,10 +1,14 @@
-# Environment variables — CONTAINS SECRETS (never commit these)
+# Environment variables — CONTAINS SECRETS
 .env*.local
 .env*.local.txt
 *.pem
 
-# Dependencies (downloaded packages, not source code)
+# Dependencies
 node_modules
+
+# Build output (generated on npm run dev/build)
+.next
+tsconfig.tsbuildinfo
 
 # macOS
 .DS_Store
