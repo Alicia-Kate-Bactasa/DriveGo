@@ -49,6 +49,3 @@ next-env.d.ts
 # OS
 Thumbs.db
 
-# Old files (Express)
-server.js.bak
-drives.json.bak
