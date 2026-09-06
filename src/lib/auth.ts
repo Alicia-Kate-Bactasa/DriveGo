@@ -2,7 +2,7 @@ import { createSupabaseServerClient } from "./supabase";
 import { redirect } from "next/navigation";
 
 export async function requireAuth() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const {
     data: { user },
     error,
@@ -16,7 +16,7 @@ export async function requireAuth() {
 }
 
 export async function requireAdmin() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const {
     data: { user },
     error,
@@ -40,7 +40,7 @@ export async function requireAdmin() {
 }
 
 export async function requireOrganizer() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const {
     data: { user },
     error,

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { LinkButton } from "@/components/ui/button";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -41,9 +41,9 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Button asChild size="sm" variant="outline">
-            <Link href="/submit">Submit a Drive</Link>
-          </Button>
+          <LinkButton href="/submit" size="sm" variant="outline">
+            Submit a Drive
+          </LinkButton>
 
           {/* Mobile menu button */}
           <button

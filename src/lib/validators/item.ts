@@ -8,3 +8,5 @@ export const driveItemSchema = z.object({
   unit: z.string().max(20).optional(),
   urgency: z.enum(["critical", "high", "medium", "low"]).optional(),
 });
+
+export type DriveItemInput = z.infer<typeof driveItemSchema>;

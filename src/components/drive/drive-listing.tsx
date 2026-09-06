@@ -1,18 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { Category, Status } from "@prisma/client";
 import { DriveCard } from "./drive-card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Tag } from "@/components/ui/tag";
 
 type Drive = {
   id: string;
   title: string;
   summary?: string | null;
   imageUrl?: string | null;
-  category: string;
-  status: string;
+  category: Category;
+  status: Status;
   location?: string | null;
   endsAt?: Date | string | null;
   progress?: number;

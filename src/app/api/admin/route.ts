@@ -4,7 +4,7 @@ import { driveStatusSchema } from "@/lib/validators";
 
 // Admin-only: moderate drives
 export async function PATCH(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -45,7 +45,7 @@ export async function PATCH(request: NextRequest) {
 
 // GET /api/admin/pending - List pending drives for moderation
 export async function GET(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {

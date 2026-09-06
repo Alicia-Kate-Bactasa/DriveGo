@@ -35,7 +35,7 @@ export default async function SavedDrivesPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {saved.map((s) => (
+            {saved.map((s: typeof saved[number]) => (
               <DriveCard
                 key={s.id}
                 {...s.drive}

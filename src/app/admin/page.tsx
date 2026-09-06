@@ -60,7 +60,7 @@ export default async function AdminPage() {
           {pending.length === 0 ? (
             <p className="text-gray-500">No drives awaiting moderation.</p>
           ) : (
-            pending.map((d) => (
+            pending.map((d: typeof pending[number]) => (
               <div key={d.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>

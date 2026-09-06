@@ -57,13 +57,13 @@ model Profile {
   bio           String?
   location      String?
   role          Role      @default(VOLUNTEER)
-  orgId         String?   @unique
 
-  organization  Organization? @relation("OrgOwner", fields: [orgId], references: [id])
+  // User owns one organization
+  ownedOrg      Organization?
+
   createdDrives Drive[]     @relation("DriveCreator")
   savedDrives   SavedDrive[]
   follows       Follow[]    @relation("Follower")
-  followedBy    Follow[]    @relation("Following")
   updates       Update[]    @relation("UpdateAuthor")
 
   @@map("profiles")
@@ -83,8 +83,9 @@ model Organization {
   verified    Boolean  @default(false)
   location    String?
 
-  owner       Profile  @relation("OrgOwner", fields: [ownerId], references: [id])
+  // One-to-one: each org has one owner profile
   ownerId     String   @unique
+  owner       Profile  @relation(fields: [ownerId], references: [id])
 
   drives      Drive[]  @relation("OrgDrives")
   followers   Follow[] @relation("OrgFollowed")
@@ -94,13 +95,11 @@ model Organization {
 }
 
 model CategoryEntity {
-  id       String  @id @default(cuid())
+  id       String   @id @default(cuid())
   name     Category @unique
   label    String  @unique
   icon     String?
   order    Int     @default(0)
-
-  drives   Drive[]
 
   @@map("categories")
 }
@@ -142,7 +141,6 @@ model Drive {
   @@index([category])
   @@index([status])
   @@index([locationLat, locationLng])
-  @@index([endsAt])
   @@index([orgId])
 }
 
@@ -156,8 +154,8 @@ model DriveItem {
   name        String
   description String?  @db.Text
   quantity    Int      @default(1)
-  unit        String?  // e.g., "kg", "liters", "pieces"
-  urgency     String?  // e.g., "critical", "high", "medium", "low"
+  unit        String?
+  urgency     String?
 
   @@map("drive_items")
   @@index([driveId])
@@ -215,13 +213,4 @@ model Follow {
   @@unique([followerId, driveId])
   @@index([followerId])
   @@index([orgId])
-}
-
-// ============================================
-// SEED DATA
-// ============================================
-
-generator seed {
-  provider = "tsx"
-  entry    = "prisma/seed.ts"
 }

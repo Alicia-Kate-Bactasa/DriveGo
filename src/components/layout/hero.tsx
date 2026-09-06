@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { LinkButton } from "@/components/ui/button";
 
 export function Hero() {
   return (
@@ -16,12 +16,8 @@ export function Hero() {
             Browse the donation drives and support what you want to see in your local community.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <Link href="/category/all">Browse Drives</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="bg-white/20 border-white/40 text-white hover:bg-white/30">
-              <Link href="/submit">Submit a Drive</Link>
-            </Button>
+            <LinkButton href="/category/all" size="lg">Browse Drives</LinkButton>
+            <LinkButton href="/submit" size="lg" variant="outline" className="bg-white/20 border-white/40 text-white hover:bg-white/30">Submit a Drive</LinkButton>
           </div>
         </div>
       </div>

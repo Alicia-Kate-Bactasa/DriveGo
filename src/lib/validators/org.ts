@@ -9,3 +9,5 @@ export const organizationSchema = z.object({
   location: z.string().max(200).optional(),
   verified: z.boolean().default(false),
 });
+
+export type OrganizationInput = z.infer<typeof organizationSchema>;

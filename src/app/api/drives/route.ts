@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase";
 import { driveSchema, driveFilterSchema } from "@/lib/validators";
-import { Status, Category } from "@prisma/client";
+import { Status } from "@prisma/client";
 
 // GET /api/drives - List drives with filtering
 export async function GET(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { searchParams } = new URL(request.url);
 
   // Build filter from query params
@@ -18,15 +18,14 @@ export async function GET(request: NextRequest) {
     radiusKm: searchParams.get("radiusKm") ? Number(searchParams.get("radiusKm")) : undefined,
     sortBy: searchParams.get("sortBy") || "createdAt",
     sortOrder: searchParams.get("sortOrder") || "desc",
-    page: searchParams.get("page") || 1,
-    pageSize: searchParams.get("pageSize") || 12,
+    page: Number(searchParams.get("page")) || 1,
+    pageSize: Number(searchParams.get("pageSize")) || 12,
   });
 
   if (!filter.success) {
     return NextResponse.json({ error: filter.error.flatten() }, { status: 400 });
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
   const { category, status, query, lat, lng, radiusKm, sortBy, sortOrder, page, pageSize } = filter.data;
 
   let dbQuery = supabase
@@ -49,7 +48,7 @@ export async function GET(request: NextRequest) {
     dbQuery = dbQuery.or(`title.ilike.%${query}%,description.ilike.%${query}%`);
   }
 
-  // Location-based filtering (Haversine formula)
+  // Location-based filtering (approximate bounding box)
   if (lat && lng && radiusKm) {
     const radiusDeg = radiusKm / 111;
     dbQuery = dbQuery
@@ -80,7 +79,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/drives - Create a new drive
 export async function POST(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
 
   if (authError || !user) {
@@ -94,20 +93,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("id, orgId")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile) {
-    return NextResponse.json({ error: "Profile not found" }, { status: 404 });
-  }
-
   const drive = {
-    ...parsed.data,
+    title: parsed.data.title,
+    description: parsed.data.description,
+    summary: parsed.data.summary,
+    mediaUrl: parsed.data.mediaUrl || null,
+    imageUrl: parsed.data.imageUrl || null,
+    category: parsed.data.category,
+    location: parsed.data.location || null,
+    locationLat: parsed.data.locationLat ?? null,
+    locationLng: parsed.data.locationLng ?? null,
     creatorId: user.id,
-    orgId: profile.orgId,
     status: Status.ACTIVE,
     startsAt: parsed.data.startsAt ? new Date(parsed.data.startsAt) : null,
     endsAt: parsed.data.endsAt ? new Date(parsed.data.endsAt) : null,

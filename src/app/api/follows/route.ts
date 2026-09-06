@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase";
 
 // POST /api/follows - Follow an org or drive
 export async function POST(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
 // DELETE /api/follows?orgId=xxx or ?driveId=xxx - Unfollow
 export async function DELETE(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {

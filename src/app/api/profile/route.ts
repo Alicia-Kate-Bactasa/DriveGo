@@ -4,7 +4,7 @@ import { profileUpdateSchema } from "@/lib/validators";
 
 // GET /api/profile - Get current user profile
 export async function GET(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
 // PATCH /api/profile - Update profile
 export async function PATCH(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {

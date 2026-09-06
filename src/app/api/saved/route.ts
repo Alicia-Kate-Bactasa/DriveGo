@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase";
 
 // GET /api/saved - List user's saved drives
 export async function GET(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/saved - Save a drive
 export async function POST(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
 // DELETE /api/saved?driveId=xxx - Unsave a drive
 export async function DELETE(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {

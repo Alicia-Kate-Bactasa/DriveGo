@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase";
-import { driveUpdateSchema, driveStatusSchema } from "@/lib/validators";
-import { Status } from "@prisma/client";
+import { driveUpdateSchema } from "@/lib/validators";
 
 type RouteParams = { params: Promise<{ id: string }> };
 
 // GET /api/drives/[id] - Get a single drive
 export async function GET(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
   const { data: drive, error } = await supabase
     .from("drives")
@@ -32,7 +31,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 // PATCH /api/drives/[id] - Update a drive
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -84,7 +83,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 // DELETE /api/drives/[id]
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {

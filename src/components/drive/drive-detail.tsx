@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Category, Status } from "@prisma/client";
 import { getCategoryLabel } from "@/lib/categories";
 import { Progress } from "@/components/ui/progress";

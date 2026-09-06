@@ -31,3 +31,7 @@ export const driveFilterSchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   pageSize: z.coerce.number().int().min(1).max(50).default(12),
 });
+
+export type DriveInput = z.infer<typeof driveSchema>;
+export type DriveUpdateInput = z.infer<typeof driveUpdateSchema>;
+export type DriveFilterInput = z.infer<typeof driveFilterSchema>;

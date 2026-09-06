@@ -6,3 +6,5 @@ export const profileUpdateSchema = z.object({
   bio: z.string().max(500).optional(),
   location: z.string().max(200).optional(),
 });
+
+export type ProfileUpdateInput = z.infer<typeof profileUpdateSchema>;

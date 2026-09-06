@@ -16,26 +16,21 @@ export function createSupabaseBrowserClient() {
 }
 
 // Server-side client for Server Components / Server Actions
-export function createSupabaseServerClient() {
-  const cookieStore = cookies();
+export async function createSupabaseServerClient() {
+  const cookieStore = await cookies();
 
   return createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
-      get(name: string) {
-        return cookieStore.get(name)?.value;
+      getAll() {
+        return cookieStore.getAll();
       },
-      set(name: string, value: string, options: any) {
+      setAll(cookiesToSet: { name: string; value: string; options?: any }[]) {
         try {
-          cookieStore.set({ name, value, ...options });
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, options);
+          });
         } catch {
           // Setting cookies in Server Components may throw; ignore.
-        }
-      },
-      remove(name: string, options: any) {
-        try {
-          cookieStore.delete({ name, ...options });
-        } catch {
-          // Removing cookies in Server Components may throw; ignore.
         }
       },
     },
@@ -47,9 +42,8 @@ export function createSupabaseAdminClient() {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
   return createServerClient(supabaseUrl, serviceRoleKey, {
     cookies: {
-      get: () => undefined,
-      set: () => {},
-      remove: () => {},
+      getAll() { return []; },
+      setAll() {},
     },
   });
 }

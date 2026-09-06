@@ -10,7 +10,7 @@ const updateSchema = z.object({
 
 // POST /api/updates - Post a drive update
 export async function POST(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 
 // GET /api/updates?driveId=xxx - Get updates for a drive
 export async function GET(request: NextRequest) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { searchParams } = new URL(request.url);
   const driveId = searchParams.get("driveId");
 
