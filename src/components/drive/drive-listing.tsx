@@ -69,14 +69,20 @@ export function DriveListing({ initialDrives, category }: DriveListingProps) {
           {category ? "Drives" : "All Drives"}
         </h2>
         <div className="flex gap-2">
-          {(["ACTIVE", "FUNDED", "EXPIRED"] as const).map((s) => (
+          {(
+            [
+              { value: "ACTIVE", label: "Active" },
+              { value: "FUNDED", label: "Funded" },
+              { value: "EXPIRED", label: "Expired" },
+            ] as const
+          ).map(({ value, label }) => (
             <Button
-              key={s}
+              key={value}
               size="sm"
-              variant={statusFilter === s ? "primary" : "outline"}
-              onClick={() => setStatusFilter(s)}
+              variant={statusFilter === value ? "primary" : "outline"}
+              onClick={() => setStatusFilter(value)}
             >
-              {s}
+              {label}
             </Button>
           ))}
         </div>

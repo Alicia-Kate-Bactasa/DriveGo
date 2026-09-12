@@ -852,12 +852,12 @@ export function AdminDashboard({
                                 : "border-gray-200 bg-gray-50 text-gray-700"
                             }`}
                           >
-                            <option value="ACTIVE">ACTIVE</option>
-                            <option value="DRAFT">DRAFT</option>
-                            <option value="FUNDED">FUNDED</option>
-                            <option value="EXPIRED">EXPIRED</option>
-                            <option value="REJECTED">REJECTED</option>
-                            <option value="ARCHIVED">ARCHIVED</option>
+                            <option value="ACTIVE">Active</option>
+                            <option value="DRAFT">Draft</option>
+                            <option value="FUNDED">Funded</option>
+                            <option value="EXPIRED">Expired</option>
+                            <option value="REJECTED">Rejected</option>
+                            <option value="ARCHIVED">Archived</option>
                           </select>
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">
@@ -1245,12 +1245,12 @@ export function AdminDashboard({
                   }
                   className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm"
                 >
-                  <option value="ACTIVE">ACTIVE</option>
-                  <option value="DRAFT">DRAFT</option>
-                  <option value="FUNDED">FUNDED</option>
-                  <option value="EXPIRED">EXPIRED</option>
-                  <option value="REJECTED">REJECTED</option>
-                  <option value="ARCHIVED">ARCHIVED</option>
+                  <option value="ACTIVE">Active</option>
+                  <option value="DRAFT">Draft</option>
+                  <option value="FUNDED">Funded</option>
+                  <option value="EXPIRED">Expired</option>
+                  <option value="REJECTED">Rejected</option>
+                  <option value="ARCHIVED">Archived</option>
                 </select>
               </div>
             </div>
@@ -1378,8 +1378,8 @@ export function AdminDashboard({
                 }
                 className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm"
               >
-                <option value="ACTIVE">ACTIVE (Published)</option>
-                <option value="DRAFT">DRAFT (Pending)</option>
+                <option value="ACTIVE">Active (Published)</option>
+                <option value="DRAFT">Draft (Pending)</option>
               </select>
             </div>
           </div>

@@ -7,10 +7,18 @@ import { useSubmitModal } from "@/components/drive/submit-modal-context";
 export function Hero() {
   const { openSubmitModal } = useSubmitModal();
 
+  const handleBrowseDrives = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const el = document.getElementById("categories");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section
       id="home"
-      className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800 pt-24 pb-14 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20 text-white scroll-mt-16"
+      className="relative flex min-h-screen min-h-[100dvh] items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800 pt-20 pb-12 sm:pt-24 sm:pb-16 text-white scroll-mt-16"
     >
       {/* Background image */}
       <Image
@@ -34,7 +42,7 @@ export function Hero() {
             local community, or sign in to organize your own.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <LinkButton href="/category/all" size="lg">
+            <LinkButton href="#categories" onClick={handleBrowseDrives} size="lg">
               Browse Drives
             </LinkButton>
             <Button

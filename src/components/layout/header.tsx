@@ -13,7 +13,7 @@ import { useSubmitModal } from "@/components/drive/submit-modal-context";
 const NAV_LINKS = [
   { href: "/#home", label: "Home" },
   { href: "/#about", label: "About" },
-  { href: "/#services", label: "Services" },
+  { href: "/#categories", label: "Categories" },
 ];
 
 export function Header() {

@@ -6,7 +6,9 @@ export function CategoryGrid() {
   const sorted = [...CATEGORIES].sort((a, b) => a.order - b.order);
 
   return (
-    <section id="services" className="py-14 sm:py-16 lg:py-20 scroll-mt-16">
+    <section id="categories" className="py-14 sm:py-16 lg:py-20 scroll-mt-20 relative">
+      {/* Anchor for backwards compatibility with #services */}
+      <div id="services" className="sr-only" />
       <div className="mx-auto w-full max-w-7xl px-4 lg:px-8">
         <h2 className="text-center text-3xl sm:text-4xl font-bold text-gray-900">
           Explore Categories
@@ -15,7 +17,8 @@ export function CategoryGrid() {
           Browse different types of donation drives to find the causes you care
           about.
         </p>
-        <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6">
+          <CategoryCard isAllDrives />
           {sorted.map((cat) => (
             <CategoryCard key={cat.name} category={cat.name} />
           ))}
