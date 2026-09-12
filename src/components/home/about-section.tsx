@@ -23,8 +23,8 @@ const INFO_CARDS = [
 
 export function AboutSection() {
   return (
-    <section id="about" className="bg-blue-600 py-20 text-white scroll-mt-16">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+    <section id="about" className="relative flex min-h-[85vh] lg:min-h-[92vh] flex-col justify-center bg-blue-600 py-24 text-white scroll-mt-16">
+      <div className="mx-auto my-auto w-full max-w-7xl px-4 lg:px-8">
         <h2 className="text-balance text-center text-3xl font-bold lg:text-4xl">
           Connect. Discover. Make a Difference.
         </h2>

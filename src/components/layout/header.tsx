@@ -53,8 +53,8 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-3 sm:top-4 z-50 mx-auto w-full max-w-7xl px-3 sm:px-6">
-        <div className="flex items-center justify-between rounded-[45px] border border-gray-200/80 bg-white/90 px-4 py-2.5 sm:px-6 sm:py-3 shadow-lg shadow-gray-900/5 backdrop-blur-md transition-all">
+      <header className="sticky top-3 sm:top-4 z-50 mx-auto w-[calc(100%-1.25rem)] sm:w-[calc(100%-2.5rem)] max-w-[1600px] -mb-18 sm:-mb-22">
+        <div className="flex items-center justify-between rounded-[45px] border border-white/40 bg-white/80 px-5 py-3 sm:px-8 sm:py-3.5 shadow-xl shadow-black/5 backdrop-blur-xl transition-all">
           <Link
             href="/"
             className="text-xl font-bold text-gray-900 transition hover:text-primary sm:text-2xl"
