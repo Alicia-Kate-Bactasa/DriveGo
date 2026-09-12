@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
 import { SubmitModalProvider } from "@/components/drive/submit-modal-context";
-import { RouteLoadingOverlay } from "@/components/ui/route-loading-indicator";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -32,10 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${jakarta.variable} ${fraunces.variable}`}>
       <body className="font-sans antialiased">
-        <SubmitModalProvider>
-          <RouteLoadingOverlay />
-          {children}
-        </SubmitModalProvider>
+        <SubmitModalProvider>{children}</SubmitModalProvider>
       </body>
     </html>
   );
