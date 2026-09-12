@@ -17,7 +17,7 @@ export function CategoryGrid() {
           Browse different types of donation drives to find the causes you care
           about.
         </p>
-        <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6">
+        <div className="mt-8 sm:mt-10 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           <CategoryCard isAllDrives />
           {sorted.map((cat) => (
             <CategoryCard key={cat.name} category={cat.name} />
