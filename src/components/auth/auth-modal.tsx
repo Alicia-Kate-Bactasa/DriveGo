@@ -97,7 +97,7 @@ export function AuthModal({
         mode === "login" ? (
           <span className="text-primary">Welcome to DriveGo</span>
         ) : (
-          <span className="text-primary">Create an Account</span>
+          <span className="text-primary">Create Account</span>
         )
       }
       maxWidth="max-w-md"

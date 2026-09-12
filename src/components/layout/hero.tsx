@@ -18,7 +18,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800 pt-28 pb-16 sm:pt-32 sm:pb-20 lg:pt-36 lg:pb-24 text-white scroll-mt-16"
+      className="relative flex min-h-[70vh] sm:min-h-[75vh] items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800 pt-28 pb-18 sm:pt-32 sm:pb-24 lg:pt-36 lg:pb-28 text-white scroll-mt-16"
     >
       {/* Background image */}
       <Image
@@ -31,7 +31,7 @@ export function Hero() {
       />
 
       <div className="relative mx-auto w-full max-w-7xl px-4 lg:px-8">
-        <div className="mx-auto max-w-3xl rounded-[45px] border border-white/20 bg-white/10 p-6 sm:p-8 backdrop-blur-md lg:p-10">
+        <div className="mx-auto max-w-3xl rounded-[45px] border border-white/20 bg-white/10 p-7 sm:p-9 backdrop-blur-md lg:p-12">
           <h1 className="text-balance text-4xl font-bold leading-tight lg:text-5xl">
             Discover and explore <br />
             donation drives <br />
