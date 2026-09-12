@@ -25,12 +25,14 @@ export function AuthModal({
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
     setMode(initialMode);
     setError(null);
+    setIsRedirecting(false);
   }, [initialMode, open]);
 
   const switchMode = (newMode: "login" | "signup") => {
@@ -39,6 +41,7 @@ export function AuthModal({
   };
 
   const handleClose = () => {
+    if (isRedirecting) return;
     setError(null);
     onClose();
     if (pathname === "/login" || pathname === "/signup") {
@@ -59,9 +62,8 @@ export function AuthModal({
         setError(error.message);
         setLoading(false);
       } else {
-        setLoading(false);
-        handleClose();
-        router.refresh();
+        setIsRedirecting(true);
+        window.location.replace("/");
       }
     } catch (err: any) {
       setError(err?.message || "Failed to sign in");
@@ -88,9 +90,8 @@ export function AuthModal({
         setError(error.message);
         setLoading(false);
       } else {
-        setLoading(false);
-        handleClose();
-        router.refresh();
+        setIsRedirecting(true);
+        window.location.replace("/");
       }
     } catch (err: any) {
       setError(err?.message || "Failed to sign up");
@@ -103,7 +104,9 @@ export function AuthModal({
       open={open}
       onClose={handleClose}
       title={
-        mode === "login" ? (
+        isRedirecting ? (
+          <span className="text-primary">DriveGo</span>
+        ) : mode === "login" ? (
           <span className="text-primary">Welcome to DriveGo</span>
         ) : (
           <span className="text-primary">Create Account</span>
@@ -111,37 +114,49 @@ export function AuthModal({
       }
       maxWidth="max-w-md"
     >
-      {/* Mode Switcher Pills */}
-      <div className="mb-6 flex rounded-[45px] bg-gray-100 p-1">
-        <button
-          type="button"
-          onClick={() => switchMode("login")}
-          className={`flex-1 rounded-[45px] py-2 text-xs font-semibold sm:text-sm transition-all ${
-            mode === "login"
-              ? "bg-white text-gray-900 shadow-xs"
-              : "text-gray-500 hover:text-gray-900"
-          }`}
-        >
-          Sign In
-        </button>
-        <button
-          type="button"
-          onClick={() => switchMode("signup")}
-          className={`flex-1 rounded-[45px] py-2 text-xs font-semibold sm:text-sm transition-all ${
-            mode === "signup"
-              ? "bg-white text-gray-900 shadow-xs"
-              : "text-gray-500 hover:text-gray-900"
-          }`}
-        >
-          Create Account
-        </button>
-      </div>
+      {isRedirecting ? (
+        <div className="flex flex-col items-center justify-center py-10 text-center space-y-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-3 border-blue-100 border-t-primary" />
+          <div>
+            <h3 className="text-base font-bold text-gray-900">
+              {mode === "login" ? "Welcome back!" : "Account created!"}
+            </h3>
+            <p className="text-xs text-gray-500 mt-1">Taking you to your dashboard...</p>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Mode Switcher Pills */}
+          <div className="mb-6 flex rounded-[45px] bg-gray-100 p-1">
+            <button
+              type="button"
+              onClick={() => switchMode("login")}
+              className={`flex-1 rounded-[45px] py-2 text-xs font-semibold sm:text-sm transition-all ${
+                mode === "login"
+                  ? "bg-white text-gray-900 shadow-xs"
+                  : "text-gray-500 hover:text-gray-900"
+              }`}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => switchMode("signup")}
+              className={`flex-1 rounded-[45px] py-2 text-xs font-semibold sm:text-sm transition-all ${
+                mode === "signup"
+                  ? "bg-white text-gray-900 shadow-xs"
+                  : "text-gray-500 hover:text-gray-900"
+              }`}
+            >
+              Create Account
+            </button>
+          </div>
 
-      <p className="mb-6 text-sm text-gray-600 leading-relaxed">
-        {mode === "login"
-          ? "Sign in to your account to organize donation campaigns and save drives."
-          : "Create a free account to launch donation drives and connect with your community."}
-      </p>
+          <p className="mb-6 text-sm text-gray-600 leading-relaxed">
+            {mode === "login"
+              ? "Sign in to your account to organize donation campaigns and save drives."
+              : "Create a free account to launch donation drives and connect with your community."}
+          </p>
 
       {mode === "login" ? (
         <form onSubmit={handleLogin} className="space-y-4">
@@ -289,6 +304,8 @@ export function AuthModal({
             </button>
           </p>
         </form>
+      )}
+        </>
       )}
     </Modal>
   );

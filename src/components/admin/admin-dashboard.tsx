@@ -219,7 +219,7 @@ export function AdminDashboard({
   const handleSignOut = async () => {
     const supabase = createSupabaseBrowserClient();
     await supabase.auth.signOut();
-    router.refresh();
+    window.location.replace("/");
   };
 
   return (

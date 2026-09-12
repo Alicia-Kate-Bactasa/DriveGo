@@ -41,13 +41,19 @@ export function Header() {
     const supabase = createSupabaseBrowserClient();
     await supabase.auth.signOut();
     setMenuOpen(false);
-    router.refresh();
+    window.location.replace("/");
   };
 
   // Hide header completely on category pages
   const isCategoryPage = pathname?.startsWith("/category");
 
   if (isCategoryPage) {
+    return null;
+  }
+
+  // On the home route ("/"), authenticated users view UserDashboard which includes its own navbar.
+  // Never show the public header with authenticated links on top of the landing page.
+  if (pathname === "/" && user) {
     return null;
   }
 

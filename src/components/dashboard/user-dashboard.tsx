@@ -102,7 +102,7 @@ export function UserDashboard({
     const supabase = createSupabaseBrowserClient();
     await supabase.auth.signOut();
     setUserMenuOpen(false);
-    router.refresh();
+    window.location.replace("/");
   };
 
   return (
