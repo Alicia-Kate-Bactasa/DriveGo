@@ -95,11 +95,9 @@ export function AuthModal({
       onClose={handleClose}
       title={
         mode === "login" ? (
-          <>
-            Welcome to <span className="text-primary">DriveGo</span>
-          </>
+          <span className="text-primary">Welcome to DriveGo</span>
         ) : (
-          "Create an Account"
+          <span className="text-primary">Create an Account</span>
         )
       }
       maxWidth="max-w-md"

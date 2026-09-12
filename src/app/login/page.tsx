@@ -36,8 +36,8 @@ export default function LoginPage() {
     <PageShell>
       <div className="mx-auto max-w-md px-4 pt-20 pb-12 sm:pt-24">
         <div className="rounded-[45px] border border-gray-100 bg-white p-8 sm:p-10 shadow-lg">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            Sign in to <span className="text-primary">DriveGo</span>
+          <h1 className="text-2xl sm:text-3xl font-bold text-primary">
+            Sign in to DriveGo
           </h1>
           <p className="mt-2 text-sm text-gray-600">Welcome back. Sign in to save drives and organize campaigns.</p>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { Modal } from "@/components/ui/modal";
 import { Input } from "@/components/ui/input";
@@ -156,11 +156,16 @@ export function SubmitDriveModal({ open, onClose }: SubmitDriveModalProps) {
   };
 
   // Determine modal title based on user state
-  let modalTitle = "Submit a Drive";
+  let modalTitle: ReactNode = "Submit a Drive";
   if (!user) {
-    modalTitle = unauthView === "login" ? "Sign In to Submit a Drive" : "Create Account to Submit a Drive";
+    modalTitle =
+      unauthView === "login" ? (
+        <span className="text-primary">Sign In to Submit a Drive</span>
+      ) : (
+        <span className="text-primary">Create Account to Submit a Drive</span>
+      );
   } else {
-    modalTitle = "Create a Donation Drive";
+    modalTitle = <span className="text-primary">Create a Donation Drive</span>;
   }
 
   return (
