@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { Tag } from "@/components/ui/tag";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   params: Promise<{ slug: string }>;
 };

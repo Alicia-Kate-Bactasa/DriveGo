@@ -11,9 +11,25 @@ if (globalForPrisma.prisma && !(globalForPrisma.prisma as any).driveVote) {
   globalForPrisma.prisma = undefined;
 }
 
+function getDatasourceUrl(): string | undefined {
+  const url = process.env.DATABASE_URL;
+  if (!url) return undefined;
+  try {
+    const parsed = new URL(url);
+    if (!parsed.searchParams.has("pgbouncer")) {
+      parsed.searchParams.set("pgbouncer", "true");
+      return parsed.toString();
+    }
+    return url;
+  } catch {
+    return url;
+  }
+}
+
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
+    datasourceUrl: getDatasourceUrl(),
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   });
 

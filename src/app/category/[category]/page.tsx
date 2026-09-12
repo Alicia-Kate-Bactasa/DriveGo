@@ -7,6 +7,8 @@ import { Category, Status } from "@prisma/client";
 import { getCategoryLabel, formatCategorySlug } from "@/lib/categories";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   params: Promise<{ category: string }>;
 };
