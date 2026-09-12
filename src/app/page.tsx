@@ -80,7 +80,7 @@ export default async function Home() {
     }));
 
     return (
-      <PageShell>
+      <PageShell hideHeader={true}>
         <UserDashboard
           user={user}
           profile={profile}
