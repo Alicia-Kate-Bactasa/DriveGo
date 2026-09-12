@@ -2,87 +2,208 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
-import { LinkButton } from "@/components/ui/button";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, X, LogOut, User as UserIcon } from "lucide-react";
+import { Button, LinkButton } from "@/components/ui/button";
+import { AuthModal } from "@/components/auth/auth-modal";
+import { useUser } from "@/hooks/use-user";
+import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
+import { useSubmitModal } from "@/components/drive/submit-modal-context";
 
 const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/category/healthcare", label: "Healthcare" },
-  { href: "/category/food", label: "Food" },
-  { href: "/category/education", label: "Education" },
-  { href: "/category/clothing", label: "Clothing" },
-  { href: "/saved", label: "Saved" },
+  { href: "/#home", label: "Home" },
+  { href: "/#about", label: "About" },
+  { href: "/#services", label: "Services" },
 ];
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const pathname = usePathname();
+  const router = useRouter();
+  const { user } = useUser();
+  const { openSubmitModal } = useSubmitModal();
+
+  const openAuth = (mode: "login" | "signup") => {
+    setAuthMode(mode);
+    setAuthModalOpen(true);
+    setMenuOpen(false);
+  };
+
+  const handleSignOut = async () => {
+    const supabase = createSupabaseBrowserClient();
+    await supabase.auth.signOut();
+    setMenuOpen(false);
+    router.refresh();
+  };
+
+  // Hide header completely on category pages
+  const isCategoryPage = pathname?.startsWith("/category");
+
+  if (isCategoryPage) {
+    return (
+      <AuthModal
+        open={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode={authMode}
+      />
+    );
+  }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
-        <Link
-          href="/"
-          className="text-3xl font-bold text-gray-900 transition hover:text-primary"
-        >
-          DriveGo
-        </Link>
-
-        {/* Desktop nav */}
-        <nav className="hidden gap-1 md:flex">
-          {NAV_LINKS.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`relative rounded-full px-4 py-2 text-base font-medium transition ${
-                  isActive
-                    ? "text-primary"
-                    : "text-gray-600 hover:text-gray-900"
-                }`}
-              >
-                {link.label}
-                {isActive && (
-                  <span className="absolute inset-x-4 -bottom-0.5 h-0.5 rounded-full bg-primary" />
-                )}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <LinkButton href="/submit" size="sm" variant="outline">
-            Submit a Drive
-          </LinkButton>
-
-          {/* Mobile menu button */}
-          <button
-            className="rounded-lg p-2 text-gray-600 transition hover:bg-gray-100 md:hidden"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
+    <>
+      <header className="sticky top-3 sm:top-4 z-50 mx-auto w-full max-w-7xl px-3 sm:px-6">
+        <div className="flex items-center justify-between rounded-[45px] border border-gray-200/80 bg-white/90 px-4 py-2.5 sm:px-6 sm:py-3 shadow-lg shadow-gray-900/5 backdrop-blur-md transition-all">
+          <Link
+            href="/"
+            className="text-xl font-bold text-gray-900 transition hover:text-primary sm:text-2xl"
           >
-            {menuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-      </div>
+            DriveGo
+          </Link>
 
-      {/* Mobile nav */}
-      {menuOpen && (
-        <nav className="border-t border-gray-100 bg-white px-4 py-4 md:hidden">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="block py-3 text-base font-medium text-gray-700 transition hover:text-primary"
-              onClick={() => setMenuOpen(false)}
+          {/* Desktop nav */}
+          <nav className="hidden gap-1 md:flex">
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === "/" && link.href === "/#home";
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="relative rounded-full px-4 py-1.5 text-sm font-medium text-gray-600 transition hover:bg-gray-100/80 hover:text-gray-900"
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-2 sm:gap-3">
+            {user ? (
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/admin"
+                  className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-100 transition"
+                  title="Admin Dashboard"
+                >
+                  Admin
+                </Link>
+                <span className="hidden text-sm font-medium text-gray-700 sm:inline-block">
+                  {user.user_metadata?.display_name || user.email?.split("@")[0]}
+                </span>
+                <Button
+                  onClick={handleSignOut}
+                  size="sm"
+                  variant="ghost"
+                  className="rounded-full text-gray-600 hover:text-red-600"
+                >
+                  <LogOut size={16} className="mr-1 sm:inline" />
+                  <span className="hidden sm:inline">Sign Out</span>
+                </Button>
+              </div>
+            ) : (
+              <Button
+                onClick={() => openAuth("login")}
+                size="sm"
+                variant="ghost"
+                className="rounded-full"
+              >
+                Log in
+              </Button>
+            )}
+
+            <Button onClick={openSubmitModal} size="sm" variant="primary" className="rounded-full shadow-xs">
+              Submit a Drive
+            </Button>
+
+            {/* Mobile menu toggle */}
+            <button
+              className="rounded-full p-2 text-gray-600 transition hover:bg-gray-100 md:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
             >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-      )}
-    </header>
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile nav floating dropdown */}
+        {menuOpen && (
+          <nav className="mt-2 overflow-hidden rounded-[32px] border border-gray-200/80 bg-white/95 p-4 shadow-xl backdrop-blur-md md:hidden">
+            <div className="flex flex-col gap-1.5">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-full px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 hover:text-primary"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+
+              <div className="mt-2 flex flex-col gap-2 border-t border-gray-100 pt-3">
+                <Button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    openSubmitModal();
+                  }}
+                  size="sm"
+                  variant="primary"
+                  className="w-full rounded-full"
+                >
+                  Submit a Drive
+                </Button>
+
+                {user ? (
+                  <>
+                    <Link
+                      href="/admin"
+                      className="rounded-full border border-blue-200 bg-blue-50 px-3 py-2 text-center text-sm font-semibold text-blue-700 hover:bg-blue-100"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Admin Dashboard
+                    </Link>
+                    <Button
+                      onClick={handleSignOut}
+                      size="sm"
+                      variant="outline"
+                      className="w-full rounded-full text-red-600"
+                    >
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      onClick={() => openAuth("login")}
+                      size="sm"
+                      variant="outline"
+                      className="w-full rounded-full"
+                    >
+                      Log in
+                    </Button>
+                    <Button
+                      onClick={() => openAuth("signup")}
+                      size="sm"
+                      className="w-full rounded-full"
+                    >
+                      Sign up
+                    </Button>
+                  </>
+                )}
+              </div>
+            </div>
+          </nav>
+        )}
+      </header>
+
+      {/* Auth Modal */}
+      <AuthModal
+        open={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode={authMode}
+      />
+    </>
   );
 }

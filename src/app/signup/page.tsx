@@ -6,7 +6,7 @@ import Link from "next/link";
 import { PageShell } from "@/components/layout/header-wrapper";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { createSupabaseBrowserClient } from "@/lib/supabase";
+import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -42,21 +42,39 @@ export default function SignupPage() {
   return (
     <PageShell>
       <div className="mx-auto max-w-md px-4 py-16">
-        <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
-          <h1 className="text-2xl font-bold text-gray-900">Create an account</h1>
-          <p className="mt-2 text-sm text-gray-600">Join DriveGo to save drives and follow organizations.</p>
+        <div className="rounded-[45px] border border-gray-100 bg-white p-8 sm:p-10 shadow-lg">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Create an account</h1>
+          <p className="mt-2 text-sm text-gray-600">Join DriveGo to organize drives and connect with your community.</p>
 
           <form onSubmit={handleSignup} className="mt-6 space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Display name</label>
-              <Input value={displayName} onChange={(e) => setDisplayName(e.target.value)} required minLength={2} />
+            <div className="space-y-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 pl-3">
+                Full Name or Organization
+              </label>
+              <Input
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                placeholder="e.g., Maria Santos"
+                required
+                minLength={2}
+              />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
-              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <div className="space-y-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 pl-3">
+                Email Address
+              </label>
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+              />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
+            <div className="space-y-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 pl-3">
+                Password
+              </label>
               <Input
                 type="password"
                 value={password}
@@ -67,16 +85,18 @@ export default function SignupPage() {
               />
             </div>
 
-            {error && <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+            {error && <p className="rounded-[20px] bg-red-50 p-3 text-sm text-red-700">{error}</p>}
 
-            <Button type="submit" disabled={loading} className="w-full">
-              {loading ? "Creating account..." : "Sign Up"}
-            </Button>
+            <div className="pt-2">
+              <Button type="submit" disabled={loading} className="w-full py-3.5 rounded-[45px]">
+                {loading ? "Creating account..." : "Create Account"}
+              </Button>
+            </div>
           </form>
 
           <p className="mt-6 text-center text-sm text-gray-600">
             Already have an account?{" "}
-            <Link href="/login" className="font-medium text-accent hover:underline">
+            <Link href="/login" className="font-semibold text-primary hover:underline">
               Sign in
             </Link>
           </p>

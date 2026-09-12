@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Category, Status } from "@prisma/client";
 import { MapPin, BadgeCheck } from "lucide-react";
 import { getCategoryLabel } from "@/lib/categories";
+import { CategoryIcon } from "@/components/category/category-icon";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Tag } from "@/components/ui/tag";
@@ -42,7 +43,7 @@ export const DriveCard = memo(function DriveCard({
 
   return (
     <Link href={`/drives/${id}`} className="group block">
-      <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+      <div className="overflow-hidden rounded-[45px] border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
         <div className="relative h-44 overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100">
           {imageUrl ? (
             <Image
@@ -58,7 +59,10 @@ export const DriveCard = memo(function DriveCard({
             </div>
           )}
           <div className="absolute left-3 top-3">
-            <Badge>{getCategoryLabel(category)}</Badge>
+            <Badge className="inline-flex items-center gap-1.5 shadow-xs">
+              <CategoryIcon category={category} size={13} strokeWidth={2.5} />
+              <span>{getCategoryLabel(category)}</span>
+            </Badge>
           </div>
           {isExpired && (
             <div className="absolute right-3 top-3">

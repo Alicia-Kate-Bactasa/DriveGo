@@ -8,9 +8,10 @@ type ModalProps = {
   onClose: () => void;
   title: string;
   children: ReactNode;
+  maxWidth?: string;
 };
 
-function Modal({ open, onClose, title, children }: ModalProps) {
+function Modal({ open, onClose, title, children, maxWidth = "max-w-lg" }: ModalProps) {
   if (!open) return null;
 
   return (
@@ -19,17 +20,17 @@ function Modal({ open, onClose, title, children }: ModalProps) {
       onClick={onClose}
     >
       <div
-        className="modal-content w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl"
+        className={`modal-content w-full ${maxWidth} max-h-[92vh] overflow-y-auto rounded-[45px] bg-white p-7 sm:p-9 shadow-2xl border border-gray-100/90`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{title}</h2>
           <button
             onClick={onClose}
-            className="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition hover:bg-gray-200 hover:text-gray-800"
             aria-label="Close modal"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
         {children}

@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, forwardRef, AnchorHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, forwardRef, ComponentProps } from "react";
 import Link from "next/link";
 
 type ButtonVariant = "primary" | "danger" | "outline" | "ghost";
@@ -39,8 +39,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   );
 });
 
-type LinkButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
-  href: string;
+type LinkButtonProps = ComponentProps<typeof Link> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
 };

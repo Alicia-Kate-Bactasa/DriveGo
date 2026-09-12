@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Category, Status } from "@prisma/client";
 import { MapPin, BadgeCheck, ExternalLink } from "lucide-react";
 import { getCategoryLabel } from "@/lib/categories";
+import { CategoryIcon } from "@/components/category/category-icon";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Tag } from "@/components/ui/tag";
@@ -70,7 +71,7 @@ export function DriveDetail({
 
   return (
     <div className="mx-auto max-w-4xl">
-      <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-[45px] border border-gray-100 bg-white shadow-sm">
         <div className="relative h-72 overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 lg:h-96">
           {imageUrl ? (
             <Image
@@ -87,7 +88,10 @@ export function DriveDetail({
             </div>
           )}
           <div className="absolute left-4 top-4">
-            <Badge>{getCategoryLabel(category)}</Badge>
+            <Badge className="inline-flex items-center gap-1.5 shadow-xs">
+              <CategoryIcon category={category} size={15} strokeWidth={2.2} />
+              <span>{getCategoryLabel(category)}</span>
+            </Badge>
           </div>
           {isExpired && (
             <div className="absolute right-4 top-4">
@@ -154,7 +158,10 @@ export function DriveDetail({
           )}
 
           <div className="mt-6 flex flex-wrap gap-2">
-            <Tag>Category: {getCategoryLabel(category)}</Tag>
+            <Tag className="inline-flex items-center gap-1.5">
+              <CategoryIcon category={category} size={13} strokeWidth={2} />
+              <span>Category: {getCategoryLabel(category)}</span>
+            </Tag>
             <Tag>Status: {status}</Tag>
           </div>
         </div>
@@ -175,7 +182,7 @@ export function DriveDetail({
         </div>
 
         <div className="space-y-4">
-          <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+          <div className="rounded-[36px] border border-gray-100 bg-white p-6 shadow-sm">
             <h3 className="font-bold text-gray-900">Campaign Details</h3>
             <dl className="mt-3 space-y-2 text-sm">
               <div className="flex justify-between">
@@ -203,7 +210,7 @@ export function DriveDetail({
             </dl>
           </div>
 
-          <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+          <div className="rounded-[36px] border border-gray-100 bg-white p-6 shadow-sm">
             <h3 className="font-bold text-gray-900">Organizer</h3>
             {organization ? (
               <Link

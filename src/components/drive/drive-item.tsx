@@ -26,7 +26,7 @@ export function DriveItem({ name, description, quantity, unit, urgency }: DriveI
         </div>
         <div className="flex flex-col items-end gap-2">
           {quantity && (
-            <span className="text-sm font-medium text-accent">
+            <span className="text-sm font-medium text-primary">
               {quantity} {unit || "needed"}
             </span>
           )}

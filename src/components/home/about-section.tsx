@@ -23,7 +23,7 @@ const INFO_CARDS = [
 
 export function AboutSection() {
   return (
-    <section className="bg-blue-600 py-20 text-white">
+    <section id="about" className="bg-blue-600 py-20 text-white scroll-mt-16">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <h2 className="text-balance text-center text-3xl font-bold lg:text-4xl">
           Connect. Discover. Make a Difference.
@@ -32,7 +32,7 @@ export function AboutSection() {
           Bringing together the causes that matter most — in one simple,
           beautiful place.
         </p>
-        <div className="mt-12 grid grid-cols-1 gap-6 rounded-2xl bg-white p-8 text-gray-900 shadow-2xl md:grid-cols-3 lg:p-10">
+        <div className="mt-12 grid grid-cols-1 gap-6 rounded-[45px] bg-white p-8 text-gray-900 shadow-2xl md:grid-cols-3 lg:p-10">
           {INFO_CARDS.map((card, i) => {
             const Icon = card.icon;
             return (
