@@ -3,6 +3,7 @@ import { PageShell } from "@/components/layout/header-wrapper";
 import { DriveCard } from "@/components/drive/drive-card";
 import { prisma } from "@/lib/prisma";
 import { requireAuth } from "@/lib/auth";
+import { BackButton } from "@/components/ui/back-button";
 
 export default async function SavedDrivesPage() {
   const user = await requireAuth();
@@ -24,6 +25,9 @@ export default async function SavedDrivesPage() {
     <PageShell>
       <section className="border-b border-gray-100 bg-gradient-to-br from-blue-50 to-white pt-20 pb-10 sm:pt-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
+          <div className="mb-4">
+            <BackButton fallbackHref="/" label="Go Back" />
+          </div>
           <h1 className="flex items-center gap-3 text-4xl font-bold text-gray-900">
             <Bookmark size={32} className="text-primary" /> Saved Drives
           </h1>

@@ -3,6 +3,7 @@ import { DriveDetail } from "@/components/drive/drive-detail";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { DriveActions } from "@/components/drive/drive-actions";
+import { BackButton } from "@/components/ui/back-button";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -31,6 +32,9 @@ export default async function DrivePage({ params }: Props) {
   return (
     <PageShell>
       <div className="mx-auto max-w-4xl px-4 pt-20 pb-10 sm:pt-24 lg:px-8">
+        <div className="mb-4">
+          <BackButton fallbackHref="/" label="Go Back" />
+        </div>
         <DriveActions driveId={drive.id} />
         <DriveDetail
           id={drive.id}

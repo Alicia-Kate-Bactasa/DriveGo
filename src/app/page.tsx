@@ -6,6 +6,8 @@ import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { prisma } from "@/lib/prisma";
 import { UserDashboard } from "@/components/dashboard/user-dashboard";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const supabase = await createSupabaseServerClient();
   const {

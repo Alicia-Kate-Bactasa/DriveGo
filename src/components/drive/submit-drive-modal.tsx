@@ -399,20 +399,6 @@ export function SubmitDriveModal({ open, onClose }: SubmitDriveModalProps) {
       ) : (
         /* ================= AUTHENTICATED DRIVE SUBMISSION FORM ================= */
         <div>
-          <div className="mb-5 flex items-center justify-between rounded-[28px] bg-gray-50 border border-gray-100 px-4 py-2.5 text-xs text-gray-700">
-            <span className="text-gray-600">
-              Publishing as{" "}
-              <strong className="text-gray-900 font-semibold">
-                {user.user_metadata?.display_name || user.email?.split("@")[0]}
-              </strong>
-            </span>
-            {user.email && (
-              <span className="text-[11px] text-gray-400 font-normal">
-                {user.email}
-              </span>
-            )}
-          </div>
-
           <form onSubmit={handleDriveSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 pl-3 mb-1.5">

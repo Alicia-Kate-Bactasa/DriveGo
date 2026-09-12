@@ -19,8 +19,12 @@ export function BackButton({
   const handleBack = () => {
     if (typeof window !== "undefined" && window.history.length > 1) {
       router.back();
+      setTimeout(() => {
+        router.refresh();
+      }, 50);
     } else {
       router.push(fallbackHref);
+      router.refresh();
     }
   };
 

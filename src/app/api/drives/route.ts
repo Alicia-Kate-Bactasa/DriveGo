@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { driveSchema, driveFilterSchema } from "@/lib/validators";
 import { Status } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 
 // GET /api/drives - List drives with filtering
 export async function GET(request: NextRequest) {
@@ -93,31 +94,40 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  const drive = {
-    title: parsed.data.title,
-    description: parsed.data.description,
-    summary: parsed.data.summary,
-    mediaUrl: parsed.data.mediaUrl || null,
-    imageUrl: parsed.data.imageUrl || null,
-    category: parsed.data.category,
-    location: parsed.data.location || null,
-    locationLat: parsed.data.locationLat ?? null,
-    locationLng: parsed.data.locationLng ?? null,
-    creatorId: user.id,
-    status: Status.ACTIVE,
-    startsAt: parsed.data.startsAt ? new Date(parsed.data.startsAt) : null,
-    endsAt: parsed.data.endsAt ? new Date(parsed.data.endsAt) : null,
-  };
-
-  const { data: newDrive, error } = await supabase
-    .from("drives")
-    .insert(drive)
-    .select()
-    .single();
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  // Ensure creator profile exists
+  let profile = await prisma.profile.findUnique({ where: { id: user.id } });
+  if (!profile) {
+    profile = await prisma.profile.create({
+      data: {
+        id: user.id,
+        email: user.email || `${user.id}@drivego.local`,
+        displayName: user.user_metadata?.display_name || user.email?.split("@")[0] || "Organizer",
+        role: "ORGANIZER",
+      },
+    });
   }
 
-  return NextResponse.json(newDrive, { status: 201 });
+  try {
+    const newDrive = await prisma.drive.create({
+      data: {
+        title: parsed.data.title,
+        description: parsed.data.description,
+        summary: parsed.data.summary,
+        mediaUrl: parsed.data.mediaUrl || null,
+        imageUrl: parsed.data.imageUrl || null,
+        category: parsed.data.category,
+        location: parsed.data.location || null,
+        locationLat: parsed.data.locationLat ?? null,
+        locationLng: parsed.data.locationLng ?? null,
+        creatorId: user.id,
+        status: Status.ACTIVE,
+        startsAt: parsed.data.startsAt ? new Date(parsed.data.startsAt) : null,
+        endsAt: parsed.data.endsAt ? new Date(parsed.data.endsAt) : null,
+      },
+    });
+
+    return NextResponse.json(newDrive, { status: 201 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err?.message || "Failed to create drive" }, { status: 500 });
+  }
 }
