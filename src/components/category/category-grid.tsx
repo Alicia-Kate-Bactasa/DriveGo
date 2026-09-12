@@ -6,7 +6,7 @@ export function CategoryGrid() {
   const sorted = [...CATEGORIES].sort((a, b) => a.order - b.order);
 
   return (
-    <section className="py-16">
+    <section id="services" className="py-16 scroll-mt-16">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <h2 className="text-center text-3xl font-bold text-gray-900">
           Explore Categories
