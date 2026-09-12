@@ -434,7 +434,7 @@ export function AdminDashboard({
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pt-28 pb-12 sm:pt-32 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 pt-20 pb-10 sm:pt-24 lg:px-8">
       {/* Top Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 pb-6">
         <div>

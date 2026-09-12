@@ -41,7 +41,7 @@ export default function SignupPage() {
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-md px-4 pt-28 pb-16 sm:pt-32">
+      <div className="mx-auto max-w-md px-4 pt-20 pb-12 sm:pt-24">
         <div className="rounded-[45px] border border-gray-100 bg-white p-8 sm:p-10 shadow-lg">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Create an account</h1>
           <p className="mt-2 text-sm text-gray-600">Join DriveGo to organize drives and connect with your community.</p>

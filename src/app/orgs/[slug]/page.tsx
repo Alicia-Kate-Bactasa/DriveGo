@@ -34,7 +34,7 @@ export default async function OrgProfilePage({ params }: Props) {
 
   return (
     <PageShell>
-      <section className="border-b border-gray-100 bg-gradient-to-br from-blue-50 to-white pt-28 pb-12 sm:pt-32">
+      <section className="border-b border-gray-100 bg-gradient-to-br from-blue-50 to-white pt-20 pb-10 sm:pt-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white text-3xl font-bold text-primary shadow-md">

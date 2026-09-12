@@ -23,16 +23,16 @@ const INFO_CARDS = [
 
 export function AboutSection() {
   return (
-    <section id="about" className="relative flex min-h-[85vh] lg:min-h-[92vh] flex-col justify-center bg-blue-600 py-24 text-white scroll-mt-16">
-      <div className="mx-auto my-auto w-full max-w-7xl px-4 lg:px-8">
+    <section id="about" className="bg-blue-600 py-14 sm:py-16 lg:py-20 text-white scroll-mt-16">
+      <div className="mx-auto w-full max-w-7xl px-4 lg:px-8">
         <h2 className="text-balance text-center text-3xl font-bold lg:text-4xl">
           Connect. Discover. Make a Difference.
         </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-center text-blue-100">
+        <p className="mx-auto mt-2.5 max-w-2xl text-center text-blue-100">
           Bringing together the causes that matter most — in one simple,
           beautiful place.
         </p>
-        <div className="mt-12 grid grid-cols-1 gap-6 rounded-[45px] bg-white p-8 text-gray-900 shadow-2xl md:grid-cols-3 lg:p-10">
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 gap-6 rounded-[45px] bg-white p-6 sm:p-8 text-gray-900 shadow-xl md:grid-cols-3 lg:p-10">
           {INFO_CARDS.map((card, i) => {
             const Icon = card.icon;
             return (

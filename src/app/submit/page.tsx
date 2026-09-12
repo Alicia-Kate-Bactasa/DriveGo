@@ -19,7 +19,7 @@ export default function SubmitPage() {
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-3xl px-4 pt-28 pb-16 sm:pt-32 lg:px-8">
+      <div className="mx-auto max-w-3xl px-4 pt-20 pb-12 sm:pt-24 lg:px-8">
         {/* Call to action card */}
         <div className="rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50/80 via-white to-blue-50/40 p-8 shadow-sm">
           <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-primary">

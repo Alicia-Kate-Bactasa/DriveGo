@@ -22,7 +22,7 @@ export default async function SavedDrivesPage() {
 
   return (
     <PageShell>
-      <section className="border-b border-gray-100 bg-gradient-to-br from-blue-50 to-white pt-28 pb-12 sm:pt-32">
+      <section className="border-b border-gray-100 bg-gradient-to-br from-blue-50 to-white pt-20 pb-10 sm:pt-24">
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <h1 className="flex items-center gap-3 text-4xl font-bold text-gray-900">
             <Bookmark size={32} className="text-primary" /> Saved Drives

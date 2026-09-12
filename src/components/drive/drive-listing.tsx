@@ -38,7 +38,7 @@ export function DriveListing({ initialDrives, category }: DriveListingProps) {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8 min-h-[70vh]">
+    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
       {/* Community invitation banner */}
       <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50/80 via-white to-blue-50/50 p-5 shadow-sm">
         <div className="flex items-start sm:items-center gap-3">
