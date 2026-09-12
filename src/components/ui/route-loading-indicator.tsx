@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { CuteLoadingScreen } from "./loading-screen";
+import { LoadingScreen } from "./loading-screen";
 
 function RouteLoadingInner() {
   const pathname = usePathname();
@@ -75,7 +75,7 @@ function RouteLoadingInner() {
 
   if (!isLoading) return null;
 
-  return <CuteLoadingScreen fullPage />;
+  return <LoadingScreen fullPage />;
 }
 
 export function RouteLoadingOverlay() {

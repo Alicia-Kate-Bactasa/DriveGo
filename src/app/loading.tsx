@@ -1,5 +1,5 @@
-import { CuteLoadingScreen } from "@/components/ui/loading-screen";
+import { LoadingScreen } from "@/components/ui/loading-screen";
 
 export default function Loading() {
-  return <CuteLoadingScreen fullPage />;
+  return <LoadingScreen fullPage />;
 }
