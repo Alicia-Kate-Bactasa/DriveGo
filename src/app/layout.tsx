@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
+import { AuthModalProvider } from "@/components/auth/auth-modal-context";
 import { SubmitModalProvider } from "@/components/drive/submit-modal-context";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -31,7 +32,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${jakarta.variable} ${fraunces.variable}`}>
       <body className="font-sans antialiased">
-        <SubmitModalProvider>{children}</SubmitModalProvider>
+        <AuthModalProvider>
+          <SubmitModalProvider>{children}</SubmitModalProvider>
+        </AuthModalProvider>
       </body>
     </html>
   );

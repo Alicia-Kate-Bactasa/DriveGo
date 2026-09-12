@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { Modal } from "@/components/ui/modal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,12 @@ export function AuthModal({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setMode(initialMode);
+    setError(null);
+  }, [initialMode, open]);
 
   const switchMode = (newMode: "login" | "signup") => {
     setMode(newMode);
@@ -35,6 +41,9 @@ export function AuthModal({
   const handleClose = () => {
     setError(null);
     onClose();
+    if (pathname === "/login" || pathname === "/signup") {
+      router.push("/");
+    }
   };
 
   const handleLogin = async (e: React.FormEvent) => {

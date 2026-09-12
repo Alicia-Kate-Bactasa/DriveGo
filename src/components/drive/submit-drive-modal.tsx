@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/lib/categories";
 import { useUser } from "@/hooks/use-user";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
-import { Mail, Lock, User, AlertCircle } from "lucide-react";
+import { Mail, Lock, User, AlertCircle, Globe } from "lucide-react";
+import { CategorySelect } from "@/components/category/category-select";
 
 type SubmitDriveModalProps = {
   open: boolean;
@@ -398,15 +399,18 @@ export function SubmitDriveModal({ open, onClose }: SubmitDriveModalProps) {
       ) : (
         /* ================= AUTHENTICATED DRIVE SUBMISSION FORM ================= */
         <div>
-          <div className="mb-5 flex items-center justify-between rounded-[32px] bg-blue-50/80 px-5 py-3 text-xs text-blue-900 border border-blue-100">
-            <span className="flex items-center gap-2">
-              <span className="inline-block h-2.5 w-2.5 rounded-full bg-emerald-500" />
+          <div className="mb-5 flex items-center justify-between rounded-[28px] bg-gray-50 border border-gray-100 px-4 py-2.5 text-xs text-gray-700">
+            <span className="text-gray-600">
               Publishing as{" "}
-              <strong>{user.user_metadata?.display_name || user.email?.split("@")[0]}</strong>
+              <strong className="text-gray-900 font-semibold">
+                {user.user_metadata?.display_name || user.email?.split("@")[0]}
+              </strong>
             </span>
-            <span className="text-blue-700 font-medium hidden sm:inline">
-              Open for anyone in the community to discover
-            </span>
+            {user.email && (
+              <span className="text-[11px] text-gray-400 font-normal">
+                {user.email}
+              </span>
+            )}
           </div>
 
           <form onSubmit={handleDriveSubmit} className="space-y-4">
@@ -430,19 +434,10 @@ export function SubmitDriveModal({ open, onClose }: SubmitDriveModalProps) {
                 <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 pl-3 mb-1.5">
                   Category *
                 </label>
-                <select
-                  name="category"
+                <CategorySelect
                   value={form.category}
-                  onChange={handleDriveChange}
-                  required
-                  className="w-full rounded-[45px] border border-gray-200 bg-white px-5 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                >
-                  {CATEGORIES.map((c) => (
-                    <option key={c.name} value={c.name}>
-                      {c.label}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(val) => setForm((prev) => ({ ...prev, category: val }))}
+                />
               </div>
 
               <div>
@@ -535,13 +530,20 @@ export function SubmitDriveModal({ open, onClose }: SubmitDriveModalProps) {
               </div>
             )}
 
-            <div className="flex justify-end gap-3 pt-3 border-t border-gray-100">
-              <Button type="button" variant="outline" onClick={resetAll} disabled={driveLoading} className="rounded-[45px] px-6 py-2.5">
-                Cancel
-              </Button>
-              <Button type="submit" disabled={driveLoading} className="rounded-[45px] px-6 py-2.5">
-                {driveLoading ? "Publishing Drive..." : "Publish Drive"}
-              </Button>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-4 border-t border-gray-100">
+              <div className="flex items-center gap-2 text-xs text-blue-700 bg-blue-50/80 border border-blue-100/80 rounded-full px-3.5 py-1.5 w-fit">
+                <Globe size={14} className="text-primary shrink-0" />
+                <span className="font-medium">Open for anyone in the community to discover</span>
+              </div>
+
+              <div className="flex items-center justify-end gap-3">
+                <Button type="button" variant="outline" onClick={resetAll} disabled={driveLoading} className="rounded-[45px] px-6 py-2.5">
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={driveLoading} className="rounded-[45px] px-6 py-2.5">
+                  {driveLoading ? "Publishing Drive..." : "Publish Drive"}
+                </Button>
+              </div>
             </div>
           </form>
         </div>
