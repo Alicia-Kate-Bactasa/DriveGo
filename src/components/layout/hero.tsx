@@ -18,7 +18,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen min-h-[100dvh] items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800 pt-20 pb-12 sm:pt-24 sm:pb-16 text-white scroll-mt-16"
+      className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800 pt-28 pb-16 sm:pt-32 sm:pb-20 lg:pt-36 lg:pb-24 text-white scroll-mt-16"
     >
       {/* Background image */}
       <Image
