@@ -57,7 +57,7 @@ export function Header() {
         <div className="flex min-h-[58px] sm:min-h-[66px] items-center justify-between rounded-[45px] border border-white/40 bg-white/75 px-5 py-2.5 sm:px-7 sm:py-3 shadow-lg shadow-black/5 backdrop-blur-xl transition-all">
           <Link
             href="/"
-            className="text-xl font-bold tracking-tight text-gray-900 transition hover:text-primary sm:text-2xl"
+            className="text-xl font-extrabold tracking-tight text-primary transition hover:text-primary-hover sm:text-2xl"
           >
             DriveGo
           </Link>

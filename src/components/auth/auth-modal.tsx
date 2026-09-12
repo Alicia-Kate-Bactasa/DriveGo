@@ -93,7 +93,15 @@ export function AuthModal({
     <Modal
       open={open}
       onClose={handleClose}
-      title={mode === "login" ? "Welcome to DriveGo" : "Create an Account"}
+      title={
+        mode === "login" ? (
+          <>
+            Welcome to <span className="text-primary">DriveGo</span>
+          </>
+        ) : (
+          "Create an Account"
+        )
+      }
       maxWidth="max-w-md"
     >
       {/* Mode Switcher Pills */}
