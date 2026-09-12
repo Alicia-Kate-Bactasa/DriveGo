@@ -52,7 +52,6 @@ Thumbs.db
 # Old files (Express)
 server.js
 drives.json
-src/
 media/first.png
 media/second.png
 media/hero.jpg
