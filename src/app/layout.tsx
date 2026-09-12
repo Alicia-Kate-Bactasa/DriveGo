@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import "./globals.css";
 import { AuthModalProvider } from "@/components/auth/auth-modal-context";
 import { SubmitModalProvider } from "@/components/drive/submit-modal-context";
+import { DriveModalProvider } from "@/components/drive/drive-modal-context";
 import { NavigationLoader } from "@/components/ui/navigation-loader";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -38,7 +39,9 @@ export default function RootLayout({
           <NavigationLoader />
         </Suspense>
         <AuthModalProvider>
-          <SubmitModalProvider>{children}</SubmitModalProvider>
+          <SubmitModalProvider>
+            <DriveModalProvider>{children}</DriveModalProvider>
+          </SubmitModalProvider>
         </AuthModalProvider>
       </body>
     </html>

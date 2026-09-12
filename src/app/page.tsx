@@ -5,6 +5,7 @@ import { CategoryGrid } from "@/components/category/category-grid";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { prisma } from "@/lib/prisma";
 import { UserDashboard } from "@/components/dashboard/user-dashboard";
+import { AdminDashboard } from "@/components/admin/admin-dashboard";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // If user is authenticated, display the User Dashboard instead of the landing page
+  // If user is authenticated
   if (user) {
     let profile = await prisma.profile.findUnique({
       where: { id: user.id },
@@ -34,6 +35,34 @@ export default async function Home() {
       });
     }
 
+    // =========================================================================
+    // ADMIN DASHBOARD: Dedicated moderation portal for admins only
+    // =========================================================================
+    if (profile.role === "ADMIN") {
+      const drives = await prisma.drive.findMany({
+        orderBy: { createdAt: "desc" },
+        include: {
+          creator: { select: { id: true, displayName: true, email: true } },
+          organization: { select: { id: true, name: true, slug: true, verified: true } },
+        },
+      });
+
+      return (
+        <PageShell hideHeader={true}>
+          <AdminDashboard
+            initialDrives={drives as any}
+            currentUser={{
+              email: user.email,
+              role: profile.role,
+            }}
+          />
+        </PageShell>
+      );
+    }
+
+    // =========================================================================
+    // REGULAR USER DASHBOARD: For organizers and donors
+    // =========================================================================
     const [userDrives, savedDrives, recentDrives] = await Promise.all([
       prisma.drive.findMany({
         where: { creatorId: user.id },

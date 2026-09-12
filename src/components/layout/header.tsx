@@ -54,31 +54,40 @@ export function Header() {
   return (
     <>
       <header className="sticky top-3 sm:top-4 z-50 mx-auto w-[calc(100%-1.5rem)] sm:w-[calc(100%-3rem)] max-w-[1536px] -mb-20 sm:-mb-24">
-        <div className="flex min-h-[74px] sm:min-h-[84px] items-center justify-between rounded-[50px] border border-gray-100 bg-white px-6 sm:px-9 py-3 sm:py-4 shadow-lg shadow-black/5 transition-all duration-300 hover:shadow-xl hover:border-gray-200">
+        <div className="relative flex min-h-[74px] sm:min-h-[84px] items-center justify-between rounded-[50px] border border-gray-100 bg-white px-6 sm:px-9 py-3 sm:py-4 shadow-lg shadow-black/5 transition-all duration-300 hover:shadow-xl hover:border-gray-200">
           <Link
             href="/"
-            className="text-xl font-extrabold tracking-tight text-primary transition-all duration-200 hover:opacity-85 hover:scale-[1.02] sm:text-2xl"
+            className="text-xl font-extrabold tracking-tight text-primary transition-all duration-200 hover:opacity-85 hover:scale-[1.02] sm:text-2xl shrink-0"
           >
             DriveGo
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden gap-1 md:flex">
-            {NAV_LINKS.map((link) => {
-              const isActive = pathname === "/" && link.href === "/#home";
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="relative rounded-full px-4 py-1.5 text-sm font-semibold text-gray-700 transition-all duration-200 hover:bg-blue-50 hover:text-primary active:scale-95"
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+          {/* Desktop nav - Perfectly centered */}
+          <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-1.5">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => {
+                  if (pathname === "/" && link.href.includes("#")) {
+                    e.preventDefault();
+                    const id = link.href.split("#")[1];
+                    const el = document.getElementById(id);
+                    if (el) {
+                      el.scrollIntoView({ behavior: "smooth" });
+                    } else if (id === "home") {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }
+                }}
+                className="relative rounded-full px-4 py-1.5 text-sm font-semibold text-gray-700 transition-all duration-200 hover:bg-blue-50 hover:text-primary active:scale-95 cursor-pointer"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {user ? (
               <div className="flex items-center gap-2">
                 <Link
@@ -137,14 +146,26 @@ export function Header() {
           <nav className="mt-3 overflow-hidden rounded-[36px] border border-gray-100 bg-white p-5 shadow-2xl md:hidden">
             <div className="flex flex-col gap-1.5">
               {NAV_LINKS.map((link) => (
-                <Link
+                <a
                   key={link.href}
                   href={link.href}
-                  className="rounded-full px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-blue-50 hover:text-primary"
-                  onClick={() => setMenuOpen(false)}
+                  className="rounded-full px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-blue-50 hover:text-primary cursor-pointer"
+                  onClick={(e) => {
+                    setMenuOpen(false);
+                    if (pathname === "/" && link.href.includes("#")) {
+                      e.preventDefault();
+                      const id = link.href.split("#")[1];
+                      const el = document.getElementById(id);
+                      if (el) {
+                        el.scrollIntoView({ behavior: "smooth" });
+                      } else if (id === "home") {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                    }
+                  }}
                 >
                   {link.label}
-                </Link>
+                </a>
               ))}
 
               <div className="mt-2 flex flex-col gap-2 border-t border-gray-100 pt-3">

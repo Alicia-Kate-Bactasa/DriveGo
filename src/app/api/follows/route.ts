@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSupabaseServerClient } from "@/lib/supabase";
+import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { prisma } from "@/lib/prisma";
 
 // POST /api/follows - Follow an org or drive
 export async function POST(request: NextRequest) {
@@ -16,21 +17,45 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "orgId or driveId is required" }, { status: 400 });
   }
 
-  const followData: Record<string, string> = { followerId: user.id };
-  if (orgId) followData.orgId = orgId;
-  if (driveId) followData.driveId = driveId;
+  try {
+    if (orgId) {
+      const follow = await prisma.follow.upsert({
+        where: {
+          followerId_orgId: {
+            followerId: user.id,
+            orgId,
+          },
+        },
+        create: {
+          followerId: user.id,
+          orgId,
+        },
+        update: {},
+      });
+      return NextResponse.json(follow, { status: 201 });
+    }
 
-  const { data: follow, error } = await supabase
-    .from("follows")
-    .upsert(followData, { onConflict: "followerId,orgId" })
-    .select()
-    .single();
+    if (driveId) {
+      const follow = await prisma.follow.upsert({
+        where: {
+          followerId_driveId: {
+            followerId: user.id,
+            driveId,
+          },
+        },
+        create: {
+          followerId: user.id,
+          driveId,
+        },
+        update: {},
+      });
+      return NextResponse.json(follow, { status: 201 });
+    }
 
-  if (error) {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-
-  return NextResponse.json(follow, { status: 201 });
 }
 
 // DELETE /api/follows?orgId=xxx or ?driveId=xxx - Unfollow
@@ -46,15 +71,27 @@ export async function DELETE(request: NextRequest) {
   const orgId = searchParams.get("orgId");
   const driveId = searchParams.get("driveId");
 
-  let query = supabase.from("follows").delete().eq("followerId", user.id);
-  if (orgId) query = query.eq("orgId", orgId);
-  if (driveId) query = query.eq("driveId", driveId);
+  try {
+    if (orgId) {
+      await prisma.follow.deleteMany({
+        where: {
+          followerId: user.id,
+          orgId,
+        },
+      });
+    }
 
-  const { error } = await query;
+    if (driveId) {
+      await prisma.follow.deleteMany({
+        where: {
+          followerId: user.id,
+          driveId,
+        },
+      });
+    }
 
-  if (error) {
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-
-  return NextResponse.json({ success: true });
 }

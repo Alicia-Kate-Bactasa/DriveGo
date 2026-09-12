@@ -12,6 +12,7 @@ import {
   LogOut,
   ArrowRight,
   BookmarkX,
+  ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DriveCard } from "@/components/drive/drive-card";
@@ -24,14 +25,20 @@ import { CATEGORIES } from "@/lib/categories";
 type SerializedDrive = {
   id: string;
   title: string;
+  description?: string | null;
   summary?: string | null;
   imageUrl?: string | null;
+  mediaUrl?: string | null;
   category: Category;
   status: Status;
   location?: string | null;
   endsAt?: string | null;
   progress?: number;
   donorsCount?: number;
+  trueVotesCount?: number;
+  falseVotesCount?: number;
+  adminReviewed?: boolean;
+  creatorId?: string;
   creator?: { displayName?: string | null };
   organization?: { name?: string | null; verified?: boolean } | null;
 };
@@ -100,6 +107,27 @@ export function UserDashboard({
 
   return (
     <div className="min-h-screen bg-[#fafbfc] text-gray-900 pb-24">
+      {/* ================= ADMIN NOTIFICATION BANNER ================= */}
+      {profile?.role === "ADMIN" && (
+        <div className="bg-blue-900 text-white px-4 py-2 text-xs sm:text-sm font-medium border-b border-blue-800">
+          <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={16} className="text-blue-300 shrink-0" />
+              <span>
+                You are signed in as an <strong>Administrator</strong>. You can review flagged drives and moderate campaigns.
+              </span>
+            </div>
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white px-3.5 py-1 text-xs font-bold transition shadow-xs"
+            >
+              <span>Go to Admin Dashboard</span>
+              <ArrowRight size={13} />
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* ================= TALLER, SPACIOUS TOP NAVBAR ================= */}
       <nav className="sticky top-0 z-40 border-b border-gray-100 bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex h-20 sm:h-22 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
@@ -148,8 +176,18 @@ export function UserDashboard({
             </button>
           </div>
 
-          {/* Right: Submit Button & User Name with Dropdown */}
-          <div className="flex items-center gap-3">
+          {/* Right: Admin Link, Submit Button & User Name with Dropdown */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {profile?.role === "ADMIN" && (
+              <Link
+                href="/admin"
+                className="rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-600 hover:text-white transition-all shadow-2xs"
+                title="Open Admin Moderation Dashboard"
+              >
+                Admin
+              </Link>
+            )}
+
             <Button
               onClick={openSubmitModal}
               size="sm"
@@ -185,6 +223,18 @@ export function UserDashboard({
                       <p className="text-[11px] text-gray-400 truncate">{user.email}</p>
                     )}
                   </div>
+
+                  {profile?.role === "ADMIN" && (
+                    <Link
+                      href="/admin"
+                      className="mt-1.5 flex w-full items-center gap-2 rounded-[18px] px-3.5 py-2 text-xs font-bold text-blue-700 hover:bg-blue-50 transition-colors"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
+                      <ShieldCheck size={14} />
+                      <span>Admin Dashboard</span>
+                    </Link>
+                  )}
+
                   <button
                     type="button"
                     onClick={handleSignOut}
@@ -257,8 +307,8 @@ export function UserDashboard({
               </div>
 
               {/* Centered Overview List with Gray Divider Lines */}
-              <div className="mt-8 rounded-[32px] border border-gray-200/80 bg-white px-4 py-5 shadow-xs max-w-4xl mx-auto">
-                <ul className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 text-center">
+              <div className="mt-8 rounded-[32px] border border-gray-200/80 bg-white px-4 py-5 shadow-xs max-w-3xl mx-auto">
+                <ul className="grid grid-cols-3 divide-x divide-gray-200 text-center">
                   <li className="flex flex-col items-center justify-center p-3 sm:px-5">
                     <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                       My Drives:
@@ -283,15 +333,6 @@ export function UserDashboard({
                     </span>
                     <span className="mt-1 text-sm sm:text-base font-bold text-purple-600">
                       {savedDrives.length} bookmarked
-                    </span>
-                  </li>
-
-                  <li className="flex flex-col items-center justify-center p-3 sm:px-5">
-                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                      Donors Rallied:
-                    </span>
-                    <span className="mt-1 text-sm sm:text-base font-bold text-amber-600">
-                      {totalDonorsRallied} {totalDonorsRallied === 1 ? "supporter" : "supporters"}
                     </span>
                   </li>
                 </ul>

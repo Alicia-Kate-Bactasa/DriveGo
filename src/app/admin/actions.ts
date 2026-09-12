@@ -23,6 +23,33 @@ export async function updateDriveStatus(driveId: string, status: Status) {
   return { success: true, drive: updated };
 }
 
+export async function putBackUpDriveAdmin(driveId: string) {
+  await requireAdmin();
+
+  // Reset false reports and restore status to ACTIVE with adminReviewed = true
+  await prisma.driveVote.deleteMany({
+    where: {
+      driveId,
+      type: "FALSE_INFO",
+    },
+  });
+
+  const updated = await prisma.drive.update({
+    where: { id: driveId },
+    data: {
+      status: Status.ACTIVE,
+      falseVotesCount: 0,
+      adminReviewed: true,
+    },
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/drives/" + driveId);
+  revalidatePath("/category/all");
+  revalidatePath("/");
+  return { success: true, drive: updated };
+}
+
 export async function updateDriveDetails(
   driveId: string,
   data: {

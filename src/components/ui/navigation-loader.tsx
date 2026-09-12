@@ -38,6 +38,14 @@ export function NavigationLoader() {
         return;
       }
 
+      // Ignore hash links (e.g. /#home, /#about, #categories) when on the same page
+      if (href.includes("#")) {
+        const [targetPath] = href.split("#");
+        if (!targetPath || targetPath === window.location.pathname) {
+          return;
+        }
+      }
+
       const currentPath = window.location.pathname + window.location.search;
       if (href !== currentPath) {
         setIsNavigating(true);

@@ -6,7 +6,18 @@ export const driveSchema = z.object({
   description: z.string().min(20, "Description must be at least 20 characters").max(2000),
   summary: z.string().max(300).optional(),
   mediaUrl: z.string().url("Invalid media URL").optional().or(z.literal("")),
-  imageUrl: z.string().url("Invalid image URL").optional().or(z.literal("")),
+  imageUrl: z
+    .string()
+    .refine(
+      (val) =>
+        !val ||
+        val.startsWith("/") ||
+        val.startsWith("data:image/") ||
+        /^https?:\/\//i.test(val),
+      "Invalid image URL or path"
+    )
+    .optional()
+    .or(z.literal("")),
   category: z.nativeEnum(Category).default(Category.MONETARY),
   location: z.string().max(200).optional(),
   locationLat: z.number().nullable().optional(),

@@ -42,6 +42,11 @@ enum Category {
   MISCELLANEOUS
 }
 
+enum VoteType {
+  TRUE_INFO
+  FALSE_INFO
+}
+
 // ============================================
 // MODELS
 // ============================================
@@ -65,6 +70,7 @@ model Profile {
   savedDrives   SavedDrive[]
   follows       Follow[]    @relation("Follower")
   updates       Update[]    @relation("UpdateAuthor")
+  votes         DriveVote[] @relation("UserVotes")
 
   @@map("profiles")
   @@index([email])
@@ -133,6 +139,11 @@ model Drive {
   updates     Update[]   @relation("DriveUpdates")
   savedBy     SavedDrive[]
   follows     Follow[]   @relation("DriveFollowed")
+  votes       DriveVote[] @relation("DriveVotes")
+
+  trueVotesCount  Int      @default(0)
+  falseVotesCount Int      @default(0)
+  adminReviewed   Boolean  @default(false)
 
   progress    Float    @default(0)
   donorsCount Int      @default(0)
@@ -213,4 +224,23 @@ model Follow {
   @@unique([followerId, driveId])
   @@index([followerId])
   @@index([orgId])
+}
+
+model DriveVote {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  type      VoteType
+
+  userId    String
+  user      Profile  @relation("UserVotes", fields: [userId], references: [id], onDelete: Cascade)
+
+  driveId   String
+  drive     Drive    @relation("DriveVotes", fields: [driveId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, driveId])
+  @@index([driveId])
+  @@index([userId])
+  @@map("drive_votes")
 }

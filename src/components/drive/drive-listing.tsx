@@ -18,6 +18,8 @@ type Drive = {
   endsAt?: Date | string | null;
   progress?: number;
   donorsCount?: number;
+  trueVotesCount?: number;
+  falseVotesCount?: number;
   creator?: { displayName?: string | null };
   organization?: { name?: string | null; verified?: boolean } | null;
 };

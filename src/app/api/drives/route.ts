@@ -3,6 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { driveSchema, driveFilterSchema } from "@/lib/validators";
 import { Status } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { validateSafeUrl } from "@/lib/security";
 
 // GET /api/drives - List drives with filtering
 export async function GET(request: NextRequest) {
@@ -32,7 +33,7 @@ export async function GET(request: NextRequest) {
   let dbQuery = supabase
     .from("drives")
     .select(
-      `id, title, summary, imageUrl, category, status, location, endsAt, progress, donorsCount,
+      `id, title, summary, imageUrl, category, status, location, endsAt, progress, donorsCount, trueVotesCount, falseVotesCount,
        creator:profiles!drives_creatorid_fkey(displayName, avatarUrl),
        organization:organizations!drives_orgid_fkey(name, slug, verified)`
     )
@@ -92,6 +93,14 @@ export async function POST(request: NextRequest) {
 
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+  }
+
+  // Security Check: Validate media link against shorteners, direct IPs, and dangerous schemes
+  if (parsed.data.mediaUrl) {
+    const urlValidation = validateSafeUrl(parsed.data.mediaUrl);
+    if (!urlValidation.isValid) {
+      return NextResponse.json({ error: urlValidation.error }, { status: 400 });
+    }
   }
 
   // Ensure creator profile exists

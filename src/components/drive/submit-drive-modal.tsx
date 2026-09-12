@@ -8,8 +8,11 @@ import { Button } from "@/components/ui/button";
 import { CATEGORIES } from "@/lib/categories";
 import { useUser } from "@/hooks/use-user";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
-import { Mail, Lock, User, AlertCircle, Globe } from "lucide-react";
+import { Mail, Lock, User, AlertCircle, Globe, ShieldCheck } from "lucide-react";
 import { CategorySelect } from "@/components/category/category-select";
+import { ImageCropUpload } from "@/components/ui/image-crop-upload";
+import { useDriveModal } from "./drive-modal-context";
+import { validateSafeUrl, getDomainTrust, isUrlShortener } from "@/lib/security";
 
 type SubmitDriveModalProps = {
   open: boolean;
@@ -21,6 +24,7 @@ type UnauthView = "login" | "signup";
 export function SubmitDriveModal({ open, onClose }: SubmitDriveModalProps) {
   const router = useRouter();
   const { user, loading: userLoading } = useUser();
+  const { openDriveModal } = useDriveModal();
 
   // Auth states for unauthenticated visitors
   const [unauthView, setUnauthView] = useState<UnauthView>("login");
@@ -60,6 +64,16 @@ export function SubmitDriveModal({ open, onClose }: SubmitDriveModalProps) {
   const handleDriveSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setDriveError(null);
+
+    // Client-side URL security check
+    if (form.mediaUrl) {
+      const urlCheck = validateSafeUrl(form.mediaUrl);
+      if (!urlCheck.isValid) {
+        setDriveError(urlCheck.error || "Please provide a valid, safe URL.");
+        return;
+      }
+    }
+
     setDriveLoading(true);
 
     try {
@@ -88,8 +102,9 @@ export function SubmitDriveModal({ open, onClose }: SubmitDriveModalProps) {
       const drive = await res.json();
       setDriveLoading(false);
       resetAll();
-      router.push(`/drives/${drive.id}`);
+      onClose();
       router.refresh();
+      openDriveModal(drive);
     } catch (err: any) {
       setDriveError(err?.message || "Failed to submit drive");
       setDriveLoading(false);
@@ -469,31 +484,13 @@ export function SubmitDriveModal({ open, onClose }: SubmitDriveModalProps) {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 pl-3 mb-1.5">
-                  Image Banner URL
-                </label>
-                <Input
-                  type="url"
-                  name="imageUrl"
-                  value={form.imageUrl}
-                  onChange={handleDriveChange}
-                  placeholder="https://example.com/banner.jpg"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-600 pl-3 mb-1.5">
-                  Campaign Deadline
-                </label>
-                <Input
-                  type="datetime-local"
-                  name="endsAt"
-                  value={form.endsAt}
-                  onChange={handleDriveChange}
-                />
-              </div>
+            <div>
+              <ImageCropUpload
+                value={form.imageUrl}
+                onChange={(url) => setForm((prev) => ({ ...prev, imageUrl: url }))}
+                label="Campaign Banner Image"
+                helperText="Upload and crop a photo from your computer/phone, or switch to paste an image URL."
+              />
             </div>
 
             <div>
@@ -507,6 +504,28 @@ export function SubmitDriveModal({ open, onClose }: SubmitDriveModalProps) {
                 onChange={handleDriveChange}
                 placeholder="https://facebook.com/... or official link"
               />
+              {form.mediaUrl && (
+                <div className="mt-1.5 pl-3">
+                  {isUrlShortener(form.mediaUrl) ? (
+                    <p className="text-xs text-red-600 font-semibold flex items-center gap-1">
+                      <AlertCircle size={13} className="shrink-0" />
+                      <span>URL shorteners (like bit.ly/tinyurl) are prohibited. Please paste the direct official link.</span>
+                    </p>
+                  ) : (() => {
+                    const trust = getDomainTrust(form.mediaUrl);
+                    return trust.isTrusted ? (
+                      <p className="text-xs text-emerald-700 font-semibold flex items-center gap-1">
+                        <ShieldCheck size={13} className="shrink-0" />
+                        <span>Trusted platform recognized ({trust.domain})</span>
+                      </p>
+                    ) : trust.domain ? (
+                      <p className="text-xs text-gray-500">
+                        External domain: <strong className="text-gray-700">{trust.domain}</strong>
+                      </p>
+                    ) : null;
+                  })()}
+                </div>
+              )}
             </div>
 
             {driveError && (

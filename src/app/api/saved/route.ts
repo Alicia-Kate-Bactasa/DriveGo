@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { prisma } from "@/lib/prisma";
 
 // GET /api/saved - List user's saved drives
 export async function GET(request: NextRequest) {
@@ -38,17 +39,24 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "driveId is required" }, { status: 400 });
   }
 
-  const { data: saved, error } = await supabase
-    .from("saved_drives")
-    .upsert({ userId: user.id, driveId }, { onConflict: "userId,driveId" })
-    .select()
-    .single();
-
-  if (error) {
+  try {
+    const saved = await prisma.savedDrive.upsert({
+      where: {
+        userId_driveId: {
+          userId: user.id,
+          driveId,
+        },
+      },
+      create: {
+        userId: user.id,
+        driveId,
+      },
+      update: {},
+    });
+    return NextResponse.json(saved, { status: 201 });
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-
-  return NextResponse.json(saved, { status: 201 });
 }
 
 // DELETE /api/saved?driveId=xxx - Unsave a drive
@@ -67,15 +75,15 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "driveId is required" }, { status: 400 });
   }
 
-  const { error } = await supabase
-    .from("saved_drives")
-    .delete()
-    .eq("userId", user.id)
-    .eq("driveId", driveId);
-
-  if (error) {
+  try {
+    await prisma.savedDrive.deleteMany({
+      where: {
+        userId: user.id,
+        driveId,
+      },
+    });
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-
-  return NextResponse.json({ success: true });
 }

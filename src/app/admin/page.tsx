@@ -5,13 +5,15 @@ import { AdminDashboard } from "@/components/admin/admin-dashboard";
 
 export const metadata = {
   title: "Admin Dashboard — DriveGo",
-  description: "Platform management for drives, organizations, users, and community moderation.",
+  description: "Moderation and tracking dashboard for community donation drives.",
 };
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
   const { user, profile } = await requireAdmin();
 
-  // Load all drives
+  // Load all drives with creator and organization details
   const drives = await prisma.drive.findMany({
     orderBy: { createdAt: "desc" },
     include: {
@@ -20,40 +22,10 @@ export default async function AdminPage() {
     },
   });
 
-  // Load all organizations
-  const organizations = await prisma.organization.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      owner: { select: { id: true, displayName: true, email: true } },
-      _count: { select: { drives: true } },
-    },
-  });
-
-  // Load all users
-  const users = await prisma.profile.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      _count: { select: { createdDrives: true } },
-    },
-  });
-
-  // Load recent updates
-  const updates = await prisma.update.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 50,
-    include: {
-      drive: { select: { id: true, title: true } },
-      author: { select: { displayName: true, email: true } },
-    },
-  });
-
   return (
     <PageShell>
       <AdminDashboard
         initialDrives={drives as any}
-        initialOrgs={organizations as any}
-        initialUsers={users as any}
-        initialUpdates={updates as any}
         currentUser={{
           email: user.email,
           role: profile.role,
