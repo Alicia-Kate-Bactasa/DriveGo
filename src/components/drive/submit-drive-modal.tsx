@@ -144,21 +144,31 @@ export function SubmitDriveModal({ open, onClose }: SubmitDriveModalProps) {
 
     try {
       const supabase = createSupabaseBrowserClient();
-      const { error } = await supabase.auth.signUp({
+      const redirectUrl = typeof window !== "undefined"
+        ? `${window.location.origin}/auth/callback?next=/verified`
+        : undefined;
+
+      const { data, error } = await supabase.auth.signUp({
         email: authEmail,
         password: authPassword,
         options: {
           data: { display_name: authDisplayName },
+          emailRedirectTo: redirectUrl,
         },
       });
 
       if (error) {
         setAuthError(error.message);
         setAuthLoading(false);
-      } else {
+      } else if (data?.session) {
         setAuthLoading(false);
         setAuthError(null);
         router.refresh();
+      } else {
+        setAuthLoading(false);
+        setAuthError(
+          `Confirmation email sent to ${authEmail}. Please check your inbox and verify your email to continue.`
+        );
       }
     } catch (err: any) {
       setAuthError(err?.message || "Failed to create account");

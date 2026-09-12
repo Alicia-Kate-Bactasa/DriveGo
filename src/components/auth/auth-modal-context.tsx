@@ -5,8 +5,8 @@ import { AuthModal } from "./auth-modal";
 
 type AuthModalContextType = {
   isAuthModalOpen: boolean;
-  authMode: "login" | "signup";
-  openAuthModal: (mode?: "login" | "signup") => void;
+  authMode: "login" | "signup" | "forgot";
+  openAuthModal: (mode?: "login" | "signup" | "forgot") => void;
   closeAuthModal: () => void;
 };
 
@@ -14,9 +14,9 @@ const AuthModalContext = createContext<AuthModalContextType | undefined>(undefin
 
 export function AuthModalProvider({ children }: { children: React.ReactNode }) {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [authMode, setAuthMode] = useState<"login" | "signup" | "forgot">("login");
 
-  const openAuthModal = useCallback((mode: "login" | "signup" = "login") => {
+  const openAuthModal = useCallback((mode: "login" | "signup" | "forgot" = "login") => {
     setAuthMode(mode);
     setIsAuthModalOpen(true);
   }, []);
